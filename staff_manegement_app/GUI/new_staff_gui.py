@@ -1,5 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+from ..GUI_Logic.tooltip_day import ToolTip
+from ..GUI_Logic.format_change import FormatConvert
+
+
+
 
 
 
@@ -33,8 +38,12 @@ def new_staff_tab(notebook):
     # スクロール可能フレームを作成
     staff_input_frame = scroll_def()
     
+
+    
     # スタッフ詳細入力ウィジェットの設定
     def new_staff_detail(frame):
+        
+        # 日付の入力は　yyyy/mm/dd　で制限したい
         
         #padx=4 横幅
         #pady=4　縦幅
@@ -99,7 +108,6 @@ def new_staff_tab(notebook):
             
             name_sepa = ttk.Separator(frame,orient="horizontal")#水平
             name_sepa.grid(row=5, column=0, columnspan=13,sticky="ew",pady=4)
-            
         
         
         def name_area():
@@ -130,7 +138,9 @@ def new_staff_tab(notebook):
             
             birthday_entry = ttk.Entry(frame,width=12,font=("Arial",18))
             birthday_entry.grid(row=4,column=11)
-        
+            
+            ToolTip(birthday_entry, text="yyyy/mm/ddで入力")
+
         
         def cell_phone_area():
             c_brank = ttk.Label(frame,text="")
@@ -181,6 +191,25 @@ def new_staff_tab(notebook):
             tell_subscriber_number.grid(row=0,column=4)
             
             
+        def Joining_the_company_day():
+            #入社日
+            label = ttk.Label(frame,text="入社日:", style="LabelStyle.TLabel")
+            label.grid(row=8,column=9)
+            
+            Joining_entry = ttk.Entry(frame,width=12,font=("Arial",18))
+            Joining_entry.grid(row=8,column=11)
+            
+            ToolTip(Joining_entry, text="yyyy/mm/ddで入力")
+            
+
+        
+        def remarks_area():
+            label = ttk.Label(frame,text="備考", style="LabelStyle.TLabel")
+            label.grid(row=10,column=9)
+            
+            remarks_entry = ttk.Entry(frame,width=12,font=("Arial",18))
+            remarks_entry.grid(row=10,column=11)
+            
         
         
         
@@ -191,6 +220,8 @@ def new_staff_tab(notebook):
         birthday()
         cell_phone_area()
         tell_area()
+        Joining_the_company_day()
+        remarks_area()
         
         
 
