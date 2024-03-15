@@ -57,7 +57,7 @@ def new_staff_tab(notebook):
             kana2_entry.grid(row=2,column=6,columnspan=2)
         
         
-        def sepa_1():
+        def sepa():
             kana_C_sepa = ttk.Separator(frame,orient="vertical")#垂直
             kana_C_sepa.grid(row=1, column=5, rowspan=5, sticky="ns",padx=4)
             
@@ -65,7 +65,7 @@ def new_staff_tab(notebook):
             kana_R_sepa.grid(row=1, column=8, rowspan=5, sticky="ns",padx=4)
             
             left_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            left_sepa.grid(row=1, column=0, rowspan=7, sticky="nsew",padx=4)
+            left_sepa.grid(row=1, column=0, rowspan=5, sticky="nsew",padx=4)
             
             top_sepa = ttk.Separator(frame,orient="horizontal")#水平
             top_sepa.grid(row=1, column=0, columnspan=13,sticky="sew",pady=4)
@@ -74,7 +74,32 @@ def new_staff_tab(notebook):
             kana_sepa.grid(row=3, column=0, columnspan=13,sticky="ew",pady=4)
             
             right_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            right_sepa.grid(row=1, column=13, rowspan=7, sticky="nsew",padx=4)
+            right_sepa.grid(row=1, column=13, rowspan=5, sticky="nsew",padx=4)
+            
+            left_2_sepa = ttk.Separator(frame,orient="vertical")#垂直
+            left_2_sepa.grid(row=7, column=0, rowspan=5, sticky="nsew",padx=4)
+            
+            top_2_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            top_2_sepa.grid(row=7, column=1, columnspan=13,sticky="sew",pady=4)
+            
+            right_2_sepa = ttk.Separator(frame,orient="vertical")#垂直
+            right_2_sepa.grid(row=7, column=13, rowspan=5, sticky="nsew",padx=4)
+            
+            phone_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            phone_sepa.grid(row=9, column=1, columnspan=13,sticky="sew",pady=4)
+            
+            left_p_sepa = ttk.Separator(frame,orient="vertical")#垂直
+            left_p_sepa.grid(row=7, column=2, rowspan=5, sticky="nsew",padx=4)
+            
+            right_p_sepa = ttk.Separator(frame,orient="vertical")#垂直
+            right_p_sepa.grid(row=7, column=8, rowspan=5, sticky="nsew",padx=4)
+            
+            tell_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            tell_sepa.grid(row=11, column=1, columnspan=13,sticky="sew",pady=4)
+            
+            name_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            name_sepa.grid(row=5, column=0, columnspan=13,sticky="ew",pady=4)
+            
         
         
         def name_area():
@@ -86,11 +111,6 @@ def new_staff_tab(notebook):
             
             kana2_entry = ttk.Entry(frame,width=20, font=("Arial",18))
             kana2_entry.grid(row=4,column=6,columnspan=2)
-        
-        
-        def sepa_2():
-            name_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            name_sepa.grid(row=5, column=0, columnspan=13,sticky="ew",pady=4)
         
         
         def sex_choice():
@@ -112,13 +132,65 @@ def new_staff_tab(notebook):
             birthday_entry.grid(row=4,column=11)
         
         
+        def cell_phone_area():
+            c_brank = ttk.Label(frame,text="")
+            c_brank.grid(row=6,column=1)
+            
+            phone_entry_frame = ttk.Frame(frame)
+            phone_entry_frame.grid(row=8,column=3,columnspan=5)
+            
+            cell_phone_label = ttk.Label(frame,text="携帯電話:", style="LabelStyle.TLabel")
+            cell_phone_label.grid(row=8,column=1)
+            
+            phone_area_code = ttk.Entry(phone_entry_frame,width=10,font=("Arial",18))
+            phone_area_code.grid(row=0,column=0)
+            
+            phone_hyphen_1 = ttk.Label(phone_entry_frame, text="-", style="LabelStyle.TLabel")
+            phone_hyphen_1.grid(row=0,column=1)
+            
+            phone_city_code = ttk.Entry(phone_entry_frame,width=10,font=("Arial",18))
+            phone_city_code.grid(row=0,column=2)
+            
+            phone_hyphen_2 = ttk.Label(phone_entry_frame, text="-", style="LabelStyle.TLabel")
+            phone_hyphen_2.grid(row=0,column=3)
+            
+            phone_subscriber_number = ttk.Entry(phone_entry_frame,width=10,font=("Arial",18))
+            phone_subscriber_number.grid(row=0,column=4)
+       
+            
+        def tell_area():
+            tell_entry_frame = ttk.Frame(frame)
+            tell_entry_frame.grid(row=10,column=3,columnspan=5)
+            
+            cell_tell_label = ttk.Label(frame,text="固定電話:", style="LabelStyle.TLabel")
+            cell_tell_label.grid(row=10,column=1)
+            
+            tell_area_code = ttk.Entry(tell_entry_frame,width=10,font=("Arial",18))
+            tell_area_code.grid(row=0,column=0)
+            
+            tell_hyphen_1 = ttk.Label(tell_entry_frame, text="-", style="LabelStyle.TLabel")
+            tell_hyphen_1.grid(row=0,column=1)
+            
+            tell_city_code = ttk.Entry(tell_entry_frame,width=10,font=("Arial",18))
+            tell_city_code.grid(row=0,column=2)
+            
+            tell_hyphen_2 = ttk.Label(tell_entry_frame, text="-", style="LabelStyle.TLabel")
+            tell_hyphen_2.grid(row=0,column=3)
+            
+            tell_subscriber_number = ttk.Entry(tell_entry_frame,width=10,font=("Arial",18))
+            tell_subscriber_number.grid(row=0,column=4)
+            
+            
+        
+        
         
         kana_area()
-        sepa_1()
+        sepa()
         name_area()
-        sepa_2()
         sex_choice()
         birthday()
+        cell_phone_area()
+        tell_area()
         
         
 
