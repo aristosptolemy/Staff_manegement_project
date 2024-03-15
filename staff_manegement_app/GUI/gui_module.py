@@ -8,7 +8,8 @@ class Apps(ttk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title("スタッフ管理")
-        self.master.geometry("1000x700")
+        self.master.geometry("1020x700")
+        self.amount_label = tk.StringVar()
         self.main_widgets()
     
     def main_widgets(self):
@@ -22,5 +23,5 @@ class Apps(ttk.Frame):
         notebook = ttk.Notebook(self.master,style="TabStyle.TNotebook")
         notebook.pack(fill='both', expand=True)
 
-        new_staff_tab(notebook)
+        new_staff_tab(notebook,self.amount_label)
         staff_search_tab(notebook)

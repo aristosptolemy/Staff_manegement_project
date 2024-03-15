@@ -24,7 +24,7 @@ class FormatConvert(object):
                 # 日付オブジェクトを作成
                 date_obj = datetime.date(date_parts[0], date_parts[1], date_parts[2])
                 date_set = date_obj.strftime("%Y/%m/%d")
-                self.widget.delete( 0, tk.END )
+                self.widget.delete(0,tk.END)
                 self.widget.insert(0,date_set)
             else:
                 print("Invalid date format")
