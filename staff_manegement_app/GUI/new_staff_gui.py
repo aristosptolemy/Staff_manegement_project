@@ -53,9 +53,11 @@ def new_staff_tab(notebook,amount_label):
     def new_staff_detail(frame):
         style_list = {
             "L":"LabelStyle.TLabel",
-            "E":("Arial",18),
-            "S":"read_only"
+            "E":("Arial", 18),
+            "S":"read_only",
+            "U":"UnderStyle.TLabel"
         }
+        c_span_max = 13
 
         #padx=4 横幅
         #pady=4　縦幅
@@ -98,19 +100,19 @@ def new_staff_tab(notebook,amount_label):
             kana_sepa.grid(row=3, column=0, columnspan=13,sticky="ew",pady=4)
             
             right_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            right_sepa.grid(row=1, column=13, rowspan=20, sticky="nsew",padx=4)
+            right_sepa.grid(row=1, column=c_span_max, rowspan=20, sticky="nsew",padx=4)
             
             left_2_sepa = ttk.Separator(frame,orient="vertical")#垂直
             left_2_sepa.grid(row=7, column=0, rowspan=5, sticky="nsew",padx=4)
             
             top_2_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            top_2_sepa.grid(row=7, column=0, columnspan=13,sticky="sew",pady=4)
+            top_2_sepa.grid(row=7, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             right_2_sepa = ttk.Separator(frame,orient="vertical")#垂直
             right_2_sepa.grid(row=7, column=13, rowspan=5, sticky="nsew",padx=4)
             
             phone_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            phone_sepa.grid(row=9, column=0, columnspan=13,sticky="sew",pady=4)
+            phone_sepa.grid(row=9, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             left_p_sepa = ttk.Separator(frame,orient="vertical")#垂直
             left_p_sepa.grid(row=7, column=2, rowspan=5, sticky="nsew",padx=4)
@@ -119,29 +121,31 @@ def new_staff_tab(notebook,amount_label):
             right_p_sepa.grid(row=7, column=8, rowspan=5, sticky="nsew",padx=4)
             
             tell_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            tell_sepa.grid(row=11, column=0, columnspan=13,sticky="sew",pady=4)
+            tell_sepa.grid(row=11, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             name_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            name_sepa.grid(row=5, column=0, columnspan=13,sticky="ew",pady=4)
+            name_sepa.grid(row=5, column=0, columnspan=c_span_max,sticky="ew",pady=4)
             
             address_top = ttk.Separator(frame,orient="horizontal")#水平
-            address_top.grid(row=13, column=0, columnspan=13,sticky="sew",pady=4)
+            address_top.grid(row=13, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             address_center = ttk.Separator(frame,orient="horizontal")#水平
-            address_center.grid(row=15, column=0, columnspan=13,sticky="sew",pady=4)
+            address_center.grid(row=15, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             address_center_2 = ttk.Separator(frame,orient="horizontal")#水平
-            address_center_2.grid(row=17, column=0, columnspan=13,sticky="sew",pady=4)
+            address_center_2.grid(row=17, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             address_bottom = ttk.Separator(frame,orient="horizontal")#水平
-            address_bottom.grid(row=19, column=0, columnspan=13,sticky="sew",pady=4)
+            address_bottom.grid(row=19, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             Means_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            Means_sepa.grid(row=21, column=8, columnspan=13,sticky="sew",pady=4)
+            Means_sepa.grid(row=21, column=8, columnspan=c_span_max,sticky="sew",pady=4)
             
             Underwriter_sepa = ttk.Separator(frame,orient="horizontal")#水平
             Underwriter_sepa.grid(row=21, column=0, columnspan=3,sticky="sew",pady=4)
-
+            
+            Under_b_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            Under_b_sepa.grid(row=23, column=0, columnspan=c_span_max,sticky="sew",pady=4)
 
 
         
@@ -179,7 +183,7 @@ def new_staff_tab(notebook,amount_label):
         def cell_phone_area():
             
             phone_entry_frame = ttk.Frame(frame)
-            phone_entry_frame.grid(row=8,column=3,columnspan=5)
+            phone_entry_frame.grid(row=8,column=3,columnspan=5,sticky=tk.W)
             
             cell_phone_label = ttk.Label(frame,text=GUI_lists["phone"], style=style_list["L"])
             cell_phone_label.grid(row=8,column=1)
@@ -202,7 +206,7 @@ def new_staff_tab(notebook,amount_label):
             
         def tell_area():
             tell_entry_frame = ttk.Frame(frame)
-            tell_entry_frame.grid(row=10,column=3,columnspan=5)
+            tell_entry_frame.grid(row=10,column=3,columnspan=5,sticky=tk.W)
             
             cell_tell_label = ttk.Label(frame,text=GUI_lists["tell"], style=style_list["L"])
             cell_tell_label.grid(row=10,column=1)
@@ -300,6 +304,7 @@ def new_staff_tab(notebook,amount_label):
             label.grid(row=18,column=9)
             
             Means_combobox = ttk.Combobox(frame,width=10,values=select_lists['means'],font=style_list["E"])
+            Means_combobox.option_add("*TCombobox*Listbox.Font", ('HGP教科書体', 16))
             Means_combobox.grid(row=18,column=11)
         
         
@@ -313,7 +318,7 @@ def new_staff_tab(notebook,amount_label):
             
         
         def Underwriter_1():
-            main_label = ttk.Label(frame,text=f'{GUI_lists["under"]}➀', style=style_list["L"])#➁2人目用
+            main_label = ttk.Label(frame,text=f'{GUI_lists["under"]}１', style=style_list["U"])
             main_label.grid(row=22,column=1)           
             
             
