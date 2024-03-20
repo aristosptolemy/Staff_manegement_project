@@ -8,7 +8,7 @@ class Apps(ttk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title("スタッフ管理")
-        self.master.geometry("1020x700")
+        self.master.geometry("1080x700")
         self.amount_label = tk.StringVar()
         self.main_widgets()
     

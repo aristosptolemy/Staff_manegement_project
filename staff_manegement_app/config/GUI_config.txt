@@ -1,0 +1,17 @@
+kana_name = フリガナ:
+name = 氏名:
+gender = 性別:
+birthday = 生年月日:
+phone = 携帯電話:
+hyphen = -
+tell = 固定電話:
+Joining = 入社日:
+main_remarks = 備考:
+address = 住所:
+post = 郵便番号:
+dependent = 扶養:
+people = 人数:
+means = 通勤手段:
+under = 身元引受人
+
+emp_type = 雇用形態:
