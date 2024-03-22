@@ -25,7 +25,7 @@ def new_staff_tab(notebook,amount_label):
     tab1 = ttk.Frame(notebook)
     notebook.add(tab1, text='新規スタッフ入力')
     # スクロール機能を持つフレームの設定
-    def scroll_def(): 
+    def scroll_def():  # 引数としてtab1を受け取るように変更
         # スクロールバーの設定
         tab1_scrollbar = ttk.Scrollbar(tab1, orient='vertical')
         tab1_scrollbar.pack(side='right', fill='y')
@@ -37,17 +37,32 @@ def new_staff_tab(notebook,amount_label):
         # スクロールバーとキャンバスの連動設定
         tab1_scrollbar.configure(command=canvas.yview)
 
+        # マウスホイールでスクロール
+        def on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        # タッチパッドやトラックパッドによる横スクロールのサポートが必要な場合（例: 横長のコンテンツ）
+        def on_shift_mousewheel(event):
+            canvas.xview_scroll(int(-1*(event.delta/120)), "units")  # 横スクロール用
+
+        canvas.bind("<MouseWheel>", on_mousewheel)
+        canvas.bind("<Shift-MouseWheel>", on_shift_mousewheel)  # 横スクロールのためにShiftキーを使用
+
+        # Linux用のバインディング（上スクロール）
+        canvas.bind("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
+        # Linux用のバインディング（下スクロール）
+        canvas.bind("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
+
         # キャンバス上に配置するウィジェット用のフレーム
         staff_input_frame = ttk.Frame(canvas)
-        staff_input_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"), width=canvas.winfo_width(), height=canvas.winfo_height()))
+        staff_input_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0, 0), window=staff_input_frame, anchor='nw')
-        
-        return staff_input_frame  # スクロール可能フレームを返す
+    
+        return staff_input_frame
 
-    # スクロール可能フレームを作成
+    
     staff_input_frame = scroll_def()
     
-
     
     # スタッフ詳細入力ウィジェットの設定
     def new_staff_detail(frame):
@@ -421,6 +436,7 @@ def new_staff_tab(notebook,amount_label):
             Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
             Work_place_combobox.grid(row=32,column=3)
             
+            
         def Employment_status():
             
             label = ttk.Label(frame,text=GUI_lists["emp_type"], style=style_list["L"])
@@ -435,6 +451,12 @@ def new_staff_tab(notebook,amount_label):
             #emp_entry.bind('<<ComboboxSelected>>',)
             
             
+        def Job_description():
+            label = ttk.Label(frame,text=GUI_lists["job_description"], style=style_list["L"])
+            label.grid(row=36,column=1)
+            
+            job_entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            job_entry.grid(row=36,column=3)
             
 
             
@@ -487,6 +509,7 @@ def new_staff_tab(notebook,amount_label):
         
         Work_place()  
         Employment_status()
+        Job_description()
         
         
 
