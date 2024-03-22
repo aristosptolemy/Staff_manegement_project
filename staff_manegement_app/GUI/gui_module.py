@@ -14,7 +14,9 @@ class Apps(ttk.Frame):
     
     def main_widgets(self):
         style = ttk.Style()
-        style.configure("TabStyle.TNotebook.Tab", font=("HGP教科書体", 16))
+        #利用可能テーマ('winnative', 'clam', 'alt', 'default', 'classic', 'vista', 'xpnative')
+        style.theme_use('xpnative')
+        style.configure('TabStyle.TNotebook.Tab', font=("HGP教科書体", 16))
         style.configure('Custom.TButton', font=('HGP教科書体', 16))
         style.configure("LabelStyle.TLabel", font=('HGP教科書体', 20))
         style.configure("UnderStyle.TLabel", font=('HGP教科書体', 16))

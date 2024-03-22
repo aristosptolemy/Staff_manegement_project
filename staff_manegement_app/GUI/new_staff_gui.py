@@ -142,10 +142,32 @@ def new_staff_tab(notebook,amount_label):
             Means_sepa.grid(row=21, column=8, columnspan=c_span_max,sticky="sew",pady=4)
             
             Underwriter_sepa = ttk.Separator(frame,orient="horizontal")#水平
-            Underwriter_sepa.grid(row=21, column=0, columnspan=3,sticky="sew",pady=4)
+            Underwriter_sepa.grid(row=21, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             Under_b_sepa = ttk.Separator(frame,orient="horizontal")#水平
             Under_b_sepa.grid(row=23, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            Under_c_sepa = ttk.Separator(frame,orient="vertical")#垂直
+            Under_c_sepa.grid(row=21, column=5, rowspan=20, sticky="nsew",padx=4)
+            
+            Under_name_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            Under_name_sepa.grid(row=25, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            Under_re_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            Under_re_sepa.grid(row=27, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            Under_phone_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            Under_phone_sepa.grid(row=29, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            Under_work_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            Under_work_sepa.grid(row=31, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            work_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            work_sepa.grid(row=33, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+
+            
+       
 
 
         
@@ -317,23 +339,95 @@ def new_staff_tab(notebook,amount_label):
             Means_entry.grid(row=20,column=11)
             
         
-        def Underwriter_1():
-            main_label = ttk.Label(frame,text=f'{GUI_lists["under"]}１', style=style_list["U"])
-            main_label.grid(row=22,column=1)           
-            
-            
-            
-            
+        def Underwriter():
+            main_label = ttk.Label(frame,text=f'{GUI_lists["under"]}', style=style_list["U"])
+            main_label.grid(row=22,column=1)
             
         
+        def U_number():
+            label = ttk.Label(frame,text="1人目", style=style_list["L"])
+            label.grid(row=22,column=3,columnspan=2)
+            label_2 = ttk.Label(frame,text="2人目", style=style_list["L"])
+            label_2.grid(row=22,column=5,columnspan=2)
+            
         
-        def Employment_status():#仮設置 後ほど場所移動
+        def Under_name_label():
+            label = ttk.Label(frame,text=GUI_lists["name"], style=style_list["L"])
+            label.grid(row=24,column=1)
+            
+
+        def relationship_label():
+            label = ttk.Label(frame,text=GUI_lists["relationship"], style=style_list["L"])
+            label.grid(row=26,column=1)
+            
+        
+        def Under_phone_label():
+            label = ttk.Label(frame,text=GUI_lists["phone"], style=style_list["L"])
+            label.grid(row=28,column=1)
+            
+        
+        def Under_work():
+            label = ttk.Label(frame,text=GUI_lists["place_of_work"], style=style_list["L"])
+            label.grid(row=30,column=1)
+        
+            
+        #1人目入力    
+        def Under_1_name():
+            Under_1_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_1_name_Entry.grid(row=24,column=3,columnspan=2)
+            
+            
+        def Under_1_relationship():
+            Under_1_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_1_relationship_Entry.grid(row=26,column=3,columnspan=2)
+            
+        
+        def Under_1_phone():
+            Under_1_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_1_phone_Entry.grid(row=28,column=3,columnspan=2)
+        
+        
+        def Under_1_work():
+            Under_1_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_1_work_Entry.grid(row=30,column=3,columnspan=2)
+        
+        
+        #2人目入力
+        
+        def Under_2_name():
+            Under_2_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_2_name_Entry.grid(row=24,column=6,columnspan=2)
+            
+            
+        def Under_2_relationship():
+            Under_2_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_2_relationship_Entry.grid(row=26,column=6,columnspan=2)
+            
+        
+        def Under_2_phone():
+            Under_2_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_2_phone_Entry.grid(row=28,column=6,columnspan=2)
+        
+        
+        def Under_2_work():
+            Under_2_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            Under_2_work_Entry.grid(row=30,column=6,columnspan=2)
+            
+        
+        def Work_place():
+            label = ttk.Label(frame,text=GUI_lists["work_place"], style=style_list["L"])
+            label.grid(row=32,column=1)
+            
+            Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
+            Work_place_combobox.grid(row=32,column=3)
+            
+        def Employment_status():
             
             label = ttk.Label(frame,text=GUI_lists["emp_type"], style=style_list["L"])
-            label.grid(row=32,column=9)
+            label.grid(row=34,column=1)
             
             emp_entry = ttk.Combobox(frame,width=10,values=select_lists['emp_type'],font=style_list["E"],state=style_list["S"])
-            emp_entry.grid(row=32,column=11)
+            emp_entry.grid(row=34,column=3)
             emp_entry.set(select_lists['emp_type'][0])
             
             Allowance_change(emp_entry,amount_label)
@@ -353,7 +447,7 @@ def new_staff_tab(notebook,amount_label):
         
         
         
-        Employment_status()#仮
+        
         
         sepa()
         kana_area()#名前のカナ入力エリア
@@ -371,9 +465,28 @@ def new_staff_tab(notebook,amount_label):
         dependent_people_area()#扶養の人数入力
         Means_of_commuting()#通勤手段
         Means_amount()#通勤手当
-        Underwriter_1()
         
+        Underwriter()#身元引受人
+        U_number()
+        Under_name_label()#身元引受人名前
+        relationship_label()#続柄
+        Under_phone_label()#電話番号
+        Under_work()#勤務先
         
+        #1人目入力
+        Under_1_name()#名前
+        Under_1_relationship()#続柄
+        Under_1_phone()#電話番号
+        Under_1_work()#勤務先
+
+        #2人目入力
+        Under_2_name()#名前
+        Under_2_relationship()#続柄
+        Under_2_phone()#電話番号
+        Under_2_work()#勤務先   
+        
+        Work_place()  
+        Employment_status()
         
         
 

@@ -13,5 +13,7 @@ dependent = 扶養:
 people = 人数:
 means = 通勤手段:
 under = 身元引受人
-
+relationship = 続柄:
+place_of_work = 勤務先:
+work_place = 就業場所:
 emp_type = 雇用形態:
