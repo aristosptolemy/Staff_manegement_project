@@ -18,3 +18,4 @@ place_of_work = 勤務先:
 work_place = 就業場所:
 emp_type = 雇用形態:
 job_description = 仕事内容:
+rank_status = 等級:

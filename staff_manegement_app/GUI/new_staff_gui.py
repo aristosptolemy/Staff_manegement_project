@@ -2,30 +2,46 @@ import tkinter as tk
 from tkinter import ttk
 from ..GUI_Logic.tooltip_day import ToolTip
 from ..GUI_Logic.text_box_RE import Open_text_box
-from ..GUI_Logic.Logic_etc import Allowance_change
+from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
+from staff_manegement_app.data.SQL import Rank_List_Manager
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file
 
 
 
 
+GUI_lists = load_GUI_file()
+select_lists = load_List_file()
 
 
 
+class StaffDetailTab:
+    def __init__(self, notebook, amount_label, rank_list):
+        self.notebook = notebook
+        self.amount_label = amount_label
+        self.rank_list = rank_list
+        self.setup_tab()
 
-# 新規スタッフ入力タブを作成する関数
-def new_staff_tab(notebook,amount_label):
-    GUI_lists = load_GUI_file()
-    select_lists = load_List_file()
-
+    def setup_tab(self):
         
-    style = ttk.Style()
-    style.configure("EntryStyle.TEntry", font=("Arial",18))
-    
-    tab1 = ttk.Frame(notebook)
-    notebook.add(tab1, text='新規スタッフ入力')
-    # スクロール機能を持つフレームの設定
-    def scroll_def():  # 引数としてtab1を受け取るように変更
+
+        # スタイル設定
+        style = ttk.Style()
+        style.configure("EntryStyle.TEntry", font=("Arial", 18))
+
+        # タブの作成
+        tab1 = ttk.Frame(self.notebook)
+        self.notebook.add(tab1, text='新規スタッフ入力')
+
+        # スクロール機能を持つフレームの設定
+        self.staff_input_frame = self.setup_scrollable_frame(tab1)
+        
+        self.new_staff_detail(self.staff_input_frame)
+
+        # スタッフ詳細入力ウィジェットの設定
+        #self.setup_staff_detail_widgets(self.staff_input_frame)
+        
+    def setup_scrollable_frame(self, tab1):
         # スクロールバーの設定
         tab1_scrollbar = ttk.Scrollbar(tab1, orient='vertical')
         tab1_scrollbar.pack(side='right', fill='y')
@@ -57,15 +73,12 @@ def new_staff_tab(notebook,amount_label):
         staff_input_frame = ttk.Frame(canvas)
         staff_input_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0, 0), window=staff_input_frame, anchor='nw')
-    
         return staff_input_frame
 
-    
-    staff_input_frame = scroll_def()
-    
-    
+
+
     # スタッフ詳細入力ウィジェットの設定
-    def new_staff_detail(frame):
+    def new_staff_detail(self,frame):
         style_list = {
             "L":"LabelStyle.TLabel",
             "E":("Arial", 18),
@@ -73,6 +86,7 @@ def new_staff_tab(notebook,amount_label):
             "U":"UnderStyle.TLabel"
         }
         c_span_max = 13
+        row_max = 50
 
         #padx=4 横幅
         #pady=4　縦幅
@@ -100,13 +114,13 @@ def new_staff_tab(notebook,amount_label):
             kana_C_sepa.grid(row=1, column=5, rowspan=5, sticky="ns",padx=4)
             
             kana_R_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            kana_R_sepa.grid(row=1, column=8, rowspan=40, sticky="ns",padx=4)
+            kana_R_sepa.grid(row=1, column=8, rowspan=row_max, sticky="ns",padx=4)
             
             kana_L_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            kana_L_sepa.grid(row=1, column=2, rowspan=40, sticky="ns",padx=4)
+            kana_L_sepa.grid(row=1, column=2, rowspan=row_max, sticky="ns",padx=4)
             
             left_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            left_sepa.grid(row=1, column=0, rowspan=40, sticky="nsew",padx=4)
+            left_sepa.grid(row=1, column=0, rowspan=row_max, sticky="nsew",padx=4)
             
             top_sepa = ttk.Separator(frame,orient="horizontal")#水平
             top_sepa.grid(row=1, column=0, columnspan=13,sticky="sew",pady=4)
@@ -115,7 +129,7 @@ def new_staff_tab(notebook,amount_label):
             kana_sepa.grid(row=3, column=0, columnspan=13,sticky="ew",pady=4)
             
             right_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            right_sepa.grid(row=1, column=c_span_max, rowspan=20, sticky="nsew",padx=4)
+            right_sepa.grid(row=1, column=c_span_max, rowspan=row_max, sticky="nsew",padx=4)
             
             left_2_sepa = ttk.Separator(frame,orient="vertical")#垂直
             left_2_sepa.grid(row=7, column=0, rowspan=5, sticky="nsew",padx=4)
@@ -180,9 +194,15 @@ def new_staff_tab(notebook,amount_label):
             work_sepa = ttk.Separator(frame,orient="horizontal")#水平
             work_sepa.grid(row=33, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
+            work_2_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            work_2_sepa.grid(row=35, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            work_3_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            work_3_sepa.grid(row=37, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
 
             
-       
+    
 
 
         
@@ -239,7 +259,7 @@ def new_staff_tab(notebook,amount_label):
             
             phone_subscriber_number = ttk.Entry(phone_entry_frame,width=10,font=style_list["E"])
             phone_subscriber_number.grid(row=0,column=4)
-       
+    
             
         def tell_area():
             tell_entry_frame = ttk.Frame(frame)
@@ -347,7 +367,7 @@ def new_staff_tab(notebook,amount_label):
         
         def Means_amount():
             
-            label = ttk.Label(frame,textvariable=amount_label, style=style_list["L"])
+            label = ttk.Label(frame,textvariable=self.amount_label, style=style_list["L"])
             label.grid(row=20,column=9)
             
             Means_entry = ttk.Entry(frame,width=12,font=style_list["E"])
@@ -363,7 +383,7 @@ def new_staff_tab(notebook,amount_label):
             label = ttk.Label(frame,text="1人目", style=style_list["L"])
             label.grid(row=22,column=3,columnspan=2)
             label_2 = ttk.Label(frame,text="2人目", style=style_list["L"])
-            label_2.grid(row=22,column=5,columnspan=2)
+            label_2.grid(row=22,column=6,columnspan=2)
             
         
         def Under_name_label():
@@ -431,33 +451,46 @@ def new_staff_tab(notebook,amount_label):
         
         def Work_place():
             label = ttk.Label(frame,text=GUI_lists["work_place"], style=style_list["L"])
-            label.grid(row=32,column=1)
+            label.grid(row=34,column=1)
             
-            Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
-            Work_place_combobox.grid(row=32,column=3)
+            self.Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
+            self.Work_place_combobox.grid(row=34,column=3)
+            
+            
             
             
         def Employment_status():
             
             label = ttk.Label(frame,text=GUI_lists["emp_type"], style=style_list["L"])
-            label.grid(row=34,column=1)
+            label.grid(row=36,column=1)
             
             emp_entry = ttk.Combobox(frame,width=10,values=select_lists['emp_type'],font=style_list["E"],state=style_list["S"])
-            emp_entry.grid(row=34,column=3)
+            emp_entry.grid(row=36,column=3)
             emp_entry.set(select_lists['emp_type'][0])
             
-            Allowance_change(emp_entry,amount_label)
+            Allowance_change(emp_entry,self.amount_label)
             
             #emp_entry.bind('<<ComboboxSelected>>',)
             
             
         def Job_description():
             label = ttk.Label(frame,text=GUI_lists["job_description"], style=style_list["L"])
-            label.grid(row=36,column=1)
+            label.grid(row=38,column=1)
             
             job_entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            job_entry.grid(row=36,column=3)
+            job_entry.grid(row=38,column=3)
+        
+        
+        def Rank_status():
+            label = ttk.Label(frame,text=GUI_lists["rank_status"], style=style_list["L"])
+            label.grid(row=40,column=1)
+
+            rank_combobox = ttk.Combobox(frame,width=10,values=self.rank_list,font=style_list["E"],state=style_list["S"])
+            rank_combobox.grid(row=40,column=3)
             
+            Work_place_rank_change(self.Work_place_combobox,self.rank_list,rank_combobox)
+            
+        
 
             
             
@@ -510,8 +543,9 @@ def new_staff_tab(notebook,amount_label):
         Work_place()  
         Employment_status()
         Job_description()
+        Rank_status()
         
         
 
     # スタッフ詳細入力ウィジェットをフレームに追加
-    new_staff_detail(staff_input_frame)
+    #new_staff_detail(self.staff_input_frame)
