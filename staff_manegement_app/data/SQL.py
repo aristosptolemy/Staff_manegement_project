@@ -59,3 +59,5 @@ class Rank_List_Manager:
                 rank_number.append(insert)
             rank_num_list = sorted(rank_number, reverse=True)
         return rank_num_list
+    
+

@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
-from ..GUI_Logic.tooltip_day import ToolTip
+from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
 from ..GUI_Logic.text_box_RE import Open_text_box
 from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
+from ..GUI_Logic.format_change import FormatConvert_tell
 from staff_manegement_app.data.SQL import Rank_List_Manager
+from staff_manegement_app.data.staff_registration import Interim_arrangement
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file
 
@@ -83,7 +85,8 @@ class StaffDetailTab:
             "L":"LabelStyle.TLabel",
             "E":("Arial", 18),
             "S":"read_only",
-            "U":"UnderStyle.TLabel"
+            "U":"UnderStyle.TLabel",
+            "B":"ButtonStyle.TButton"
         }
         c_span_max = 13
         row_max = 50
@@ -93,21 +96,9 @@ class StaffDetailTab:
 
         # ラベルの作成と配置
         
-        top_blank = ttk.Label(frame,text=" ")
-        top_blank.grid(row=0,column=0,columnspan=10)
+        
 
 
-        def kana_area():
-        
-            kana_label = ttk.Label(frame, text=GUI_lists['kana_name'], style=style_list["L"])
-            kana_label.grid(row=2,column=1)
-        
-            kana1_entry = ttk.Entry(frame,width=20, font=style_list["E"])
-            kana1_entry.grid(row=2,column=3,columnspan=2)
-            
-            kana2_entry = ttk.Entry(frame,width=20, font=style_list["E"])
-            kana2_entry.grid(row=2,column=6,columnspan=2)
-        
         
         def sepa():
             kana_C_sepa = ttk.Separator(frame,orient="vertical")#垂直
@@ -177,7 +168,7 @@ class StaffDetailTab:
             Under_b_sepa.grid(row=23, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
             Under_c_sepa = ttk.Separator(frame,orient="vertical")#垂直
-            Under_c_sepa.grid(row=21, column=5, rowspan=20, sticky="nsew",padx=4)
+            Under_c_sepa.grid(row=21, column=5, rowspan=25, sticky="nsew",padx=4)
             
             Under_name_sepa = ttk.Separator(frame,orient="horizontal")#水平
             Under_name_sepa.grid(row=25, column=0, columnspan=c_span_max,sticky="sew",pady=4)
@@ -200,181 +191,181 @@ class StaffDetailTab:
             work_3_sepa = ttk.Separator(frame,orient="horizontal")#水平
             work_3_sepa.grid(row=37, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
-
+            rank_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            rank_sepa.grid(row=39, column=0, columnspan=c_span_max,sticky="sew",pady=4)
             
-    
+            rank_2_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            rank_2_sepa.grid(row=41, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            salary_notes_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            salary_notes_sepa.grid(row=43, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            salary_2_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            salary_2_sepa.grid(row=45, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            insurance_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            insurance_sepa.grid(row=47, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
+            insurance2_sepa = ttk.Separator(frame,orient="horizontal")#水平
+            insurance2_sepa.grid(row=49, column=0, columnspan=c_span_max,sticky="sew",pady=4)
+            
 
 
+        def kana_area():#氏名　カナ
         
+            kana_label = ttk.Label(frame, text=GUI_lists['kana_name'], style=style_list["L"])
+            kana_label.grid(row=2,column=1)
         
-        def name_area():
+            self.kana1_entry = ttk.Entry(frame,width=20, font=style_list["E"])
+            self.kana1_entry.grid(row=2,column=3,columnspan=2)
+            
+            self.kana2_entry = ttk.Entry(frame,width=20, font=style_list["E"])
+            self.kana2_entry.grid(row=2,column=6,columnspan=2)
+                    
+        
+        def name_area():#氏名
             name_label = ttk.Label(frame,text=GUI_lists["name"], style=style_list["L"])
             name_label.grid(row=4,column=1)
             
-            f_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
-            f_name_entry.grid(row=4,column=3,columnspan=2)
+            self.f_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
+            self.f_name_entry.grid(row=4,column=3,columnspan=2)
             
-            kana2_entry = ttk.Entry(frame,width=20, font=style_list["E"])
-            kana2_entry.grid(row=4,column=6,columnspan=2)
+            self.l_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
+            self.l_name_entry.grid(row=4,column=6,columnspan=2)
         
         
-        def gender_choice():
+        def gender_choice():#性別選択
             
             gender_label = ttk.Label(frame,text=GUI_lists["gender"], style=style_list["L"])
             gender_label.grid(row=2,column=9)
             
-            gender_combobox = ttk.Combobox(frame,values=select_lists['gender'],width=10,font=style_list["E"],state=style_list["S"])
-            gender_combobox.grid(row=2,column=11)
+            self.gender_combobox = ttk.Combobox(frame,values=select_lists['gender'],width=10,font=style_list["E"],state=style_list["S"])
+            self.gender_combobox.grid(row=2,column=10)
         
         
-        def birthday():
+        def birthday():#生年月日
             birthday_label = ttk.Label(frame,text=GUI_lists["birthday"], style=style_list["L"])
             birthday_label.grid(row=4,column=9)
             
-            birthday_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            birthday_entry.grid(row=4,column=11)
+            self.birthday_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.birthday_entry.grid(row=4,column=10)
             
-            ToolTip(birthday_entry, text="yyyy/mm/ddで入力")
+            ToolTip(self.birthday_entry, text="yyyy/mm/ddで入力")
 
         
-        def cell_phone_area():
-            
-            phone_entry_frame = ttk.Frame(frame)
-            phone_entry_frame.grid(row=8,column=3,columnspan=5,sticky=tk.W)
+        def cell_phone_area():#携帯電話
             
             cell_phone_label = ttk.Label(frame,text=GUI_lists["phone"], style=style_list["L"])
             cell_phone_label.grid(row=8,column=1)
             
-            phone_area_code = ttk.Entry(phone_entry_frame,width=10,font=style_list["E"])
-            phone_area_code.grid(row=0,column=0)
+            self.phone_code = ttk.Entry(frame,width=41,font=style_list["E"])
+            self.phone_code.grid(row=8,column=3,columnspan=5)
+
+
+            ToolTip_error(self.phone_code,GUI_lists["phone"])
             
-            phone_hyphen_1 = ttk.Label(phone_entry_frame, text=GUI_lists["hyphen"], style=style_list["L"])
-            phone_hyphen_1.grid(row=0,column=1)
-            
-            phone_city_code = ttk.Entry(phone_entry_frame,width=10,font=style_list["E"])
-            phone_city_code.grid(row=0,column=2)
-            
-            phone_hyphen_2 = ttk.Label(phone_entry_frame, text=GUI_lists["hyphen"], style=style_list["L"])
-            phone_hyphen_2.grid(row=0,column=3)
-            
-            phone_subscriber_number = ttk.Entry(phone_entry_frame,width=10,font=style_list["E"])
-            phone_subscriber_number.grid(row=0,column=4)
     
             
-        def tell_area():
-            tell_entry_frame = ttk.Frame(frame)
-            tell_entry_frame.grid(row=10,column=3,columnspan=5,sticky=tk.W)
+        def tell_area():#固定電話
             
             cell_tell_label = ttk.Label(frame,text=GUI_lists["tell"], style=style_list["L"])
             cell_tell_label.grid(row=10,column=1)
             
-            tell_area_code = ttk.Entry(tell_entry_frame,width=10,font=style_list["E"])
-            tell_area_code.grid(row=0,column=0)
-            
-            tell_hyphen_1 = ttk.Label(tell_entry_frame, text=GUI_lists["hyphen"], style=style_list["L"])
-            tell_hyphen_1.grid(row=0,column=1)
-            
-            tell_city_code = ttk.Entry(tell_entry_frame,width=10,font=style_list["E"])
-            tell_city_code.grid(row=0,column=2)
-            
-            tell_hyphen_2 = ttk.Label(tell_entry_frame, text=GUI_lists["hyphen"], style=style_list["L"])
-            tell_hyphen_2.grid(row=0,column=3)
-            
-            tell_subscriber_number = ttk.Entry(tell_entry_frame,width=10,font=style_list["E"])
-            tell_subscriber_number.grid(row=0,column=4)
+            self.tell_code = ttk.Entry(frame,width=41,font=style_list["E"])
+            self.tell_code.grid(row=10,column=3,columnspan=5)
             
             
-        def Joining_the_company_day():
+            ToolTip_error(self.tell_code,GUI_lists["tell"])
+            
+            
+            
+        def Joining_the_company_day():#入社日
             #入社日
             label = ttk.Label(frame,text=GUI_lists["Joining"], style=style_list["L"])
             label.grid(row=8,column=9)
             
-            Joining_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            Joining_entry.grid(row=8,column=11)
+            self.Joining_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.Joining_entry.grid(row=8,column=10)
             
-            ToolTip(Joining_entry, text="yyyy/mm/ddで入力")
+            ToolTip(self.Joining_entry, text="yyyy/mm/ddで入力")
             
         
-        def remarks_area():
+        def remarks_area():#備考
             label = ttk.Label(frame,text=GUI_lists["main_remarks"], style=style_list["L"])
             label.grid(row=10,column=9)
             
-            remarks_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            remarks_entry.grid(row=10,column=11)
+            self.remarks_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.remarks_entry.grid(row=10,column=10)
             
-            Open_text_box(remarks_entry)
+            Open_text_box(self.remarks_entry)
         
         
-        def address_kana_area():
+        def address_kana_area():#住所　カナ
             label = ttk.Label(frame,text=GUI_lists["kana_name"], style=style_list["L"])
             label.grid(row=14,column=1)
             
-            address_kana_entry = ttk.Entry(frame,width=40,font=style_list["E"])
-            address_kana_entry.grid(row=14,column=3,columnspan=5)
+            self.address_kana_entry = ttk.Entry(frame,width=41,font=style_list["E"])
+            self.address_kana_entry.grid(row=14,column=3,columnspan=5)
             
             
-        def address_area():
+        def address_area():#住所
             label = ttk.Label(frame,text=GUI_lists["address"], style=style_list["L"])
             label.grid(row=16,column=1)
             
-            address_entry = ttk.Entry(frame,width=40,font=style_list["E"])
-            address_entry.grid(row=16,column=3,columnspan=5)
+            self.address_entry = ttk.Entry(frame,width=41,font=style_list["E"])
+            self.address_entry.grid(row=16,column=3,columnspan=5)
             
         
-        def post_number_area():
+        def post_number_area():#郵便番号
             label = ttk.Label(frame,text=GUI_lists["post"], style=style_list["L"])
             label.grid(row=18,column=1)
             
             number_frame = ttk.Frame(frame)
             number_frame.grid(row=18,column=3,columnspan=3)
             
-            Postal_district_number = ttk.Entry(number_frame,width=8,font=style_list["E"])
-            Postal_district_number.grid(row=0,column=0)
+            self.Post_number = ttk.Entry(number_frame,width=20,font=style_list["E"])
+            self.Post_number.grid(row=0,column=0)
             
-            post_hyphen_1 = ttk.Label(number_frame, text=GUI_lists["hyphen"], style=style_list["L"])
-            post_hyphen_1.grid(row=0,column=1)
-            
-            Town_area_number = ttk.Entry(number_frame,width=10,font=style_list["E"])
-            Town_area_number.grid(row=0,column=2)
+            ToolTip_error_Post(self.Post_number,GUI_lists["post"])
             
             
-        def dependent_area():
+        def dependent_area():#扶養
             label = ttk.Label(frame,text=GUI_lists["dependent"], style=style_list["L"])
             label.grid(row=14,column=9)
             
-            dependent_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            dependent_entry.grid(row=14,column=11)
+            self.dependent_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.dependent_entry.grid(row=14,column=10)
             
-            Open_text_box(dependent_entry)
+            Open_text_box(self.dependent_entry)
             
         
-        def dependent_people_area():
+        def dependent_people_area():#扶養の人数
             label = ttk.Label(frame,text=GUI_lists["people"], style=style_list["L"])
             label.grid(row=16,column=9)
             
-            dependent_people_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            dependent_people_entry.grid(row=16,column=11)
+            self.dependent_people_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.dependent_people_entry.grid(row=16,column=10)
             
         
-        def Means_of_commuting():
+        def Means_of_commuting():#通勤手段
             label = ttk.Label(frame,text=GUI_lists["means"], style=style_list["L"])
             label.grid(row=18,column=9)
             
-            Means_combobox = ttk.Combobox(frame,width=10,values=select_lists['means'],font=style_list["E"])
-            Means_combobox.option_add("*TCombobox*Listbox.Font", ('HGP教科書体', 16))
-            Means_combobox.grid(row=18,column=11)
+            self.Means_combobox = ttk.Combobox(frame,width=10,values=select_lists['means'],font=style_list["E"])
+            self.Means_combobox.option_add("*TCombobox*Listbox.Font", ('HGP教科書体', 16))
+            self.Means_combobox.grid(row=18,column=10)
         
         
-        def Means_amount():
+        def Means_amount():#メインの交通費
             
             label = ttk.Label(frame,textvariable=self.amount_label, style=style_list["L"])
             label.grid(row=20,column=9)
             
-            Means_entry = ttk.Entry(frame,width=12,font=style_list["E"])
-            Means_entry.grid(row=20,column=11)
+            self.Means_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.Means_entry.grid(row=20,column=10)
             
         
-        def Underwriter():
+        def Underwriter():#身元引受人(ラベル)
             main_label = ttk.Label(frame,text=f'{GUI_lists["under"]}', style=style_list["U"])
             main_label.grid(row=22,column=1)
             
@@ -386,119 +377,271 @@ class StaffDetailTab:
             label_2.grid(row=22,column=6,columnspan=2)
             
         
-        def Under_name_label():
+        def Under_name_label():#身元引受人　名前(ラベル)
             label = ttk.Label(frame,text=GUI_lists["name"], style=style_list["L"])
             label.grid(row=24,column=1)
             
 
-        def relationship_label():
+        def relationship_label():#身元引受人　続柄(ラベル)
             label = ttk.Label(frame,text=GUI_lists["relationship"], style=style_list["L"])
             label.grid(row=26,column=1)
             
         
-        def Under_phone_label():
+        def Under_phone_label():#身元引受人　電話番号(ラベル)
             label = ttk.Label(frame,text=GUI_lists["phone"], style=style_list["L"])
             label.grid(row=28,column=1)
             
         
-        def Under_work():
+        def Under_work():#身元引受人　勤務先(ラベル)
             label = ttk.Label(frame,text=GUI_lists["place_of_work"], style=style_list["L"])
             label.grid(row=30,column=1)
         
             
         #1人目入力    
         def Under_1_name():
-            Under_1_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_1_name_Entry.grid(row=24,column=3,columnspan=2)
+            self.Under_1_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_1_name_Entry.grid(row=24,column=3,columnspan=2)
             
             
         def Under_1_relationship():
-            Under_1_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_1_relationship_Entry.grid(row=26,column=3,columnspan=2)
+            self.Under_1_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_1_relationship_Entry.grid(row=26,column=3,columnspan=2)
             
         
         def Under_1_phone():
-            Under_1_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_1_phone_Entry.grid(row=28,column=3,columnspan=2)
+            self.Under_1_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_1_phone_Entry.grid(row=28,column=3,columnspan=2)
         
         
         def Under_1_work():
-            Under_1_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_1_work_Entry.grid(row=30,column=3,columnspan=2)
+            self.Under_1_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_1_work_Entry.grid(row=30,column=3,columnspan=2)
         
         
         #2人目入力
         
         def Under_2_name():
-            Under_2_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_2_name_Entry.grid(row=24,column=6,columnspan=2)
+            self.Under_2_name_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_2_name_Entry.grid(row=24,column=6,columnspan=2)
             
             
         def Under_2_relationship():
-            Under_2_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_2_relationship_Entry.grid(row=26,column=6,columnspan=2)
+            self.Under_2_relationship_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_2_relationship_Entry.grid(row=26,column=6,columnspan=2)
             
         
         def Under_2_phone():
-            Under_2_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_2_phone_Entry.grid(row=28,column=6,columnspan=2)
+            self.Under_2_phone_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_2_phone_Entry.grid(row=28,column=6,columnspan=2)
         
         
         def Under_2_work():
-            Under_2_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            Under_2_work_Entry.grid(row=30,column=6,columnspan=2)
+            self.Under_2_work_Entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.Under_2_work_Entry.grid(row=30,column=6,columnspan=2)
+          
             
         
-        def Work_place():
+        def Work_place():#就業場所
             label = ttk.Label(frame,text=GUI_lists["work_place"], style=style_list["L"])
             label.grid(row=34,column=1)
             
             self.Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
             self.Work_place_combobox.grid(row=34,column=3)
             
-            
-            
-            
-        def Employment_status():
+                 
+        def Employment_status():#雇用形態
             
             label = ttk.Label(frame,text=GUI_lists["emp_type"], style=style_list["L"])
             label.grid(row=36,column=1)
             
-            emp_entry = ttk.Combobox(frame,width=10,values=select_lists['emp_type'],font=style_list["E"],state=style_list["S"])
-            emp_entry.grid(row=36,column=3)
-            emp_entry.set(select_lists['emp_type'][0])
+            self.emp_entry = ttk.Combobox(frame,width=10,values=select_lists['emp_type'],font=style_list["E"],state=style_list["S"])
+            self.emp_entry.grid(row=36,column=3)
+            self.emp_entry.set(select_lists['emp_type'][0])
             
-            Allowance_change(emp_entry,self.amount_label)
+            Allowance_change(self.emp_entry,self.amount_label)
             
             #emp_entry.bind('<<ComboboxSelected>>',)
             
             
-        def Job_description():
+        def Job_description():#仕事内容
             label = ttk.Label(frame,text=GUI_lists["job_description"], style=style_list["L"])
             label.grid(row=38,column=1)
             
-            job_entry = ttk.Entry(frame,width=20,font=style_list["E"])
-            job_entry.grid(row=38,column=3)
+            self.job_entry = ttk.Entry(frame,width=20,font=style_list["E"])
+            self.job_entry.grid(row=38,column=3)
         
         
-        def Rank_status():
+        def Rank_status():#等級
             label = ttk.Label(frame,text=GUI_lists["rank_status"], style=style_list["L"])
             label.grid(row=40,column=1)
 
-            rank_combobox = ttk.Combobox(frame,width=10,values=self.rank_list,font=style_list["E"],state=style_list["S"])
-            rank_combobox.grid(row=40,column=3)
+            self.rank_combobox = ttk.Combobox(frame,width=10,values=self.rank_list,font=style_list["E"],state=style_list["S"])
+            self.rank_combobox.grid(row=40,column=3)
             
-            Work_place_rank_change(self.Work_place_combobox,self.rank_list,rank_combobox)
+            Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
             
         
+        def Salary_notes():#給与関係の備考
+            label = ttk.Label(frame,text=GUI_lists["salary_notes"], style=style_list["L"])
+            label.grid(row=42,column=1)
+            
+            self.salary_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.salary_entry.grid(row=42,column=3)
+            
+            Open_text_box(self.salary_entry)
+            
+        
+        def Working_conditions():#労働条件
+            label = ttk.Label(frame,text=GUI_lists["working_conditions"], style=style_list["L"])
+            label.grid(row=34,column=6,columnspan=2)
+            
 
+        def Working_start_time():#出勤時間
+            label = ttk.Label(frame,text=GUI_lists["working_start"], style=style_list["L"])
+            label.grid(row=36,column=6)
+            
+            self.work_start_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_start_entry.grid(row=36,column=7)
+            
+            ToolTip_time(self.work_start_entry, text="hh:mmで入力")
+            
+        
+        def Working_end_time():#退勤時間
+            label = ttk.Label(frame,text=GUI_lists["working_end"], style=style_list["L"])
+            label.grid(row=38,column=6)
+            
+            self.work_end_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_end_entry.grid(row=38,column=7)
+            
+            ToolTip_time(self.work_end_entry, text="hh:mmで入力")
+        
+        
+        def Working_break_time():#休憩時間
+            label = ttk.Label(frame,text=GUI_lists["working_break_time"], style=style_list["L"])
+            label.grid(row=40,column=6)
+            
+            self.work_break_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_break_entry.grid(row=40,column=7)
+        
+        
+        def Working_week_time():#週の勤務時間
+            label = ttk.Label(frame,text=GUI_lists["working_week_time"], style=style_list["L"])
+            label.grid(row=42,column=6)
+            
+            self.work_break_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_break_entry.grid(row=42,column=7)
             
             
+        def Overtime_or():#残業の有無
+            label = ttk.Label(frame,text=GUI_lists["working_overtime"], style=style_list["L"])
+            label.grid(row=36,column=9)
+            
+            self.work_over_combobox = ttk.Combobox(frame,values=select_lists['presence_or_absence'],
+                                                   width=9,font=style_list["E"],state=style_list["S"])
+            self.work_over_combobox.grid(row=36,column=10)
+            
+
+        def Overtime_start():#残業開始時間
+            label = ttk.Label(frame,text=GUI_lists["working_over_start"], style=style_list["L"])
+            label.grid(row=38,column=9)
+            
+            self.work_over_start_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_over_start_entry.grid(row=38,column=10)
+            
+            ToolTip_time(self.work_over_start_entry, text="hh:mmで入力")
         
         
+        def Overtime_end():#残業終了時間
+            label = ttk.Label(frame,text=GUI_lists["working_over_end"], style=style_list["L"])
+            label.grid(row=40,column=9)
+            
+            self.work_over_end_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_over_end_entry.grid(row=40,column=10)
+            
+            ToolTip_time(self.work_over_end_entry, text="hh:mmで入力")    
         
         
+        def Holiday():#休日に関して
+            label = ttk.Label(frame,text=GUI_lists["holiday"], style=style_list["L"])
+            label.grid(row=42,column=9)
+            
+            self.holiday_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.holiday_entry.grid(row=42,column=10)
+            
+            Open_text_box(self.holiday_entry)
         
+        
+        def Employment_insurance():#雇用保険
+            label = ttk.Label(frame,text=GUI_lists["employment_insurance"], style=style_list["L"])
+            label.grid(row=46,column=1)
+            
+            emp_ins_frame = ttk.Frame(frame)
+            emp_ins_frame.grid(row=46,column=3,columnspan=5)
+            
+            self.emp_ins_combobox = ttk.Combobox(emp_ins_frame,values=select_lists['presence_or_absence'],
+                                                   width=5,font=style_list["E"],state=style_list["S"])
+            self.emp_ins_combobox.grid(row=1,column=0)
+            
+            label2 = ttk.Label(emp_ins_frame,text=GUI_lists["number"], style=style_list["L"])
+            label2.grid(row=1,column=2)
+            
+            self.emp_ins_entry = ttk.Entry(emp_ins_frame,width=24,font=style_list["E"])
+            self.emp_ins_entry.grid(row=1,column=3)
+            
+            sepa = ttk.Separator(emp_ins_frame,orient="vertical")#垂直
+            sepa.grid(row=0, column=1, rowspan=3, sticky="ns",padx=4)
+        
+        
+        def Social_insurance():#社会保険
+            label = ttk.Label(frame,text=GUI_lists["sosial_insurance"], style=style_list["L"])
+            label.grid(row=48,column=1)
+            
+            soc_ins_frame = ttk.Frame(frame)
+            soc_ins_frame.grid(row=48,column=3,columnspan=5)
+            
+            self.emp_ins_combobox = ttk.Combobox(soc_ins_frame,values=select_lists['presence_or_absence'],
+                                                   width=5,font=style_list["E"],state=style_list["S"])
+            self.emp_ins_combobox.grid(row=1,column=0)
+            
+            label2 = ttk.Label(soc_ins_frame,text=GUI_lists["number"], style=style_list["L"])
+            label2.grid(row=1,column=2)
+            
+            self.soc_ins_entry = ttk.Entry(soc_ins_frame,width=24,font=style_list["E"])
+            self.soc_ins_entry.grid(row=1,column=3)
+            
+            sepa = ttk.Separator(soc_ins_frame,orient="vertical")#垂直
+            sepa.grid(row=0, column=1, rowspan=3, sticky="ns",padx=4)
+            
+            
+        def Establishment_of_period():#定めの期間の有無
+            label = ttk.Label(frame,text=GUI_lists["establishment_of_period"], style=style_list["L"])
+            label.grid(row=46,column=9)
+            
+            self.est_of_p_combobox = ttk.Combobox(frame,values=select_lists['presence_or_absence'],
+                                                   width=9,font=style_list["E"],state=style_list["S"])
+            self.est_of_p_combobox.grid(row=46,column=10)
+            
+        
+        def Period():#定めの期間
+            label = ttk.Label(frame,text=GUI_lists["period"], style=style_list["L"])
+            label.grid(row=48,column=9)
+            
+            self.Period_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.Period_entry.grid(row=48,column=10)
+        
+        
+        def Registration_button():
+            Registr_button = ttk.Button(frame,text=GUI_lists["Registration"], style=style_list["B"],command=Datail_summarize)
+            Registr_button.grid(row=100,column=0,columnspan=11,pady=10)
+        
+        #,"":
+        def Datail_summarize():
+            data = {"fカナ":self.kana1_entry,"lカナ":self.kana2_entry,"f名前":self.f_name_entry,"l名前":self.l_name_entry,
+                    "性別":self.gender_combobox,"生年月日":self.birthday_entry,"携帯電話":self.phone_code,"固定電話":self.tell_code,
+                    "入社日":self.Joining_entry,"備考":self.remarks_entry}
+            Interim_arrangement(data)
+            
+            
         
         
         
@@ -544,8 +687,21 @@ class StaffDetailTab:
         Employment_status()
         Job_description()
         Rank_status()
+        Salary_notes()
         
+        Working_conditions()
+        Working_start_time()
+        Working_end_time()
+        Working_break_time()
+        Working_week_time()
         
-
-    # スタッフ詳細入力ウィジェットをフレームに追加
-    #new_staff_detail(self.staff_input_frame)
+        Overtime_or()
+        Overtime_start()
+        Overtime_end()
+        Holiday()
+        
+        Employment_insurance()
+        Social_insurance()
+        Establishment_of_period()
+        Period()
+        Registration_button()

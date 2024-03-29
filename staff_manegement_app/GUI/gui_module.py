@@ -10,7 +10,7 @@ class Apps(ttk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title("スタッフ管理")
-        self.master.geometry("1020x700")
+        self.master.geometry("1040x700")
         self.notebook = ttk.Notebook(self.master, style="TabStyle.TNotebook")
         self.amount_label = tk.StringVar()
         self.rank_number_list = []
@@ -35,6 +35,7 @@ class Apps(ttk.Frame):
         style.configure("LabelStyle.TLabel", font=('HGP教科書体', 20))
         style.configure("UnderStyle.TLabel", font=('HGP教科書体', 16))
         style.configure('Custom.TCombobox', font=('HGP教科書体', 16))
+        style.configure('ButtonStyle.TButton', font=('HGP教科書体', 20))
         
         #notebook = ttk.Notebook(self.master,style="TabStyle.TNotebook")
         self.notebook.pack(fill='both', expand=True)
