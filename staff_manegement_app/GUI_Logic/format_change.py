@@ -1,4 +1,5 @@
 import jaconv
+import pykakasi
 
 import datetime
 from datetime import date
@@ -84,4 +85,28 @@ class FormatConvert_Post(object):
             return post_number
         else:
             return
+        
+class Kana_change(object):
+    def __init__(self,widget1,widget2):
+        self.widget1 = widget1#漢字
+        self.widget2 = widget2#カタカナ
+        self.widget1.bind('<FocusOut>',self.kana_set)
+    
+    def kana_set(self,event=None):
+        kks = pykakasi.kakasi()
+        kanji = self.widget1.get()
+        result = kks.convert(kanji)
+        kana = result[0]['kana']
+        print(kana)
+        kana_result = []
+        for i in result:
+            k = i['kana']
+            kana_result.append(k)
+            
+        ins_kana = "".join(kana_result)
+        print(ins_kana)
+            
+        if self.widget2.get() == "":
+            self.widget2.insert(tk.END,ins_kana)
+
         

@@ -3,7 +3,7 @@ from tkinter import ttk
 from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
 from ..GUI_Logic.text_box_RE import Open_text_box
 from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
-from ..GUI_Logic.format_change import FormatConvert_tell
+from ..GUI_Logic.format_change import Kana_change
 from staff_manegement_app.data.SQL import Rank_List_Manager
 from staff_manegement_app.data.staff_registration import Interim_arrangement
 from staff_manegement_app.GUI.load_config import load_GUI_file
@@ -230,8 +230,12 @@ class StaffDetailTab:
             self.f_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
             self.f_name_entry.grid(row=4,column=3,columnspan=2)
             
+            Kana_change(self.f_name_entry,self.kana1_entry)
+            
             self.l_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
             self.l_name_entry.grid(row=4,column=6,columnspan=2)
+            
+            Kana_change(self.l_name_entry,self.kana2_entry)
         
         
         def gender_choice():#性別選択
@@ -314,6 +318,8 @@ class StaffDetailTab:
             
             self.address_entry = ttk.Entry(frame,width=41,font=style_list["E"])
             self.address_entry.grid(row=16,column=3,columnspan=5)
+            
+            Kana_change(self.address_entry,self.address_kana_entry)
             
         
         def post_number_area():#郵便番号
