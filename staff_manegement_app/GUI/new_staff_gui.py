@@ -481,6 +481,26 @@ class StaffDetailTab:
             Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
             
         
+        def Contract_renewal():
+            label = ttk.Label(frame,text=GUI_lists["Contract_renewal"], style=style_list["L"])
+            label.grid(row=22,column=9)
+            
+            self.Contract_renewal_combobox = ttk.Combobox(frame,width=10,values=select_lists['presence_or_absence'],font=style_list["E"],state=style_list["S"])
+            self.Contract_renewal_combobox.grid(row=22,column=10)
+            
+        
+        def Renewal_day():
+            label = ttk.Label(frame,text=GUI_lists["Renewal_day"], style=style_list["L"])
+            label.grid(row=24,column=9)
+            
+            self.Renewal_entry = ttk.Entry(frame,width=12,font=style_list["E"])
+            self.Renewal_entry.grid(row=24,column=10)
+            
+            ToolTip(self.Renewal_entry, text="yyyy/mm/ddで入力")
+            
+            
+            
+        
         def Salary_notes():#給与関係の備考
             label = ttk.Label(frame,text=GUI_lists["salary_notes"], style=style_list["L"])
             label.grid(row=42,column=1)
@@ -599,9 +619,9 @@ class StaffDetailTab:
             soc_ins_frame = ttk.Frame(frame)
             soc_ins_frame.grid(row=48,column=3,columnspan=5)
             
-            self.emp_ins_combobox = ttk.Combobox(soc_ins_frame,values=select_lists['presence_or_absence'],
+            self.soc_ins_combobox = ttk.Combobox(soc_ins_frame,values=select_lists['presence_or_absence'],
                                                    width=5,font=style_list["E"],state=style_list["S"])
-            self.emp_ins_combobox.grid(row=1,column=0)
+            self.soc_ins_combobox.grid(row=1,column=0)
             
             label2 = ttk.Label(soc_ins_frame,text=GUI_lists["number"], style=style_list["L"])
             label2.grid(row=1,column=2)
@@ -622,12 +642,14 @@ class StaffDetailTab:
             self.est_of_p_combobox.grid(row=46,column=10)
             
         
-        def Period():#定めの期間
+        def Period():#試用期間
             label = ttk.Label(frame,text=GUI_lists["period"], style=style_list["L"])
             label.grid(row=48,column=9)
             
-            self.Period_entry = ttk.Entry(frame,width=10,font=style_list["E"])
-            self.Period_entry.grid(row=48,column=10)
+            self.trial_period_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.trial_period_entry.grid(row=48,column=10)
+            
+            ToolTip(self.trial_period_entry, text="試用期間があれば入力")
         
         
         def Registration_button():
@@ -636,9 +658,23 @@ class StaffDetailTab:
         
         #,"":
         def Datail_summarize():
-            data = {"fカナ":self.kana1_entry,"lカナ":self.kana2_entry,"f名前":self.f_name_entry,"l名前":self.l_name_entry,
-                    "性別":self.gender_combobox,"生年月日":self.birthday_entry,"携帯電話":self.phone_code,"固定電話":self.tell_code,
-                    "入社日":self.Joining_entry,"備考":self.remarks_entry}
+            data = {"fカナ":self.kana1_entry.get(),"lカナ":self.kana2_entry.get(),
+                    "f名前":self.f_name_entry.get(),"l名前":self.l_name_entry.get(),
+                    "性別":self.gender_combobox.get(),"生年月日":self.birthday_entry.get(),"携帯電話":self.phone_code.get(),"固定電話":self.tell_code.get(),
+                    "入社日":self.Joining_entry.get(),"備考":self.remarks_entry.get(),"住所カナ":self.address_kana_entry.get(),"住所":self.address_entry.get(),
+                    "郵便番号":self.Post_number.get(),"扶養":self.dependent_entry.get(),"扶養の人数":self.dependent_people_entry.get(),"通勤手段":self.Means_combobox.get(),
+                    "メインの交通費":self.Means_entry.get(),"1名前":self.Under_1_name_Entry.get(),"1続柄":self.Under_1_relationship_Entry.get(),
+                    "1電話番号":self.Under_1_phone_Entry.get(),"1勤務先":self.Under_1_work_Entry.get(),
+                    "2名前":self.Under_2_name_Entry.get(),"2続柄":self.Under_2_relationship_Entry.get(),"2電話番号":self.Under_2_phone_Entry.get(),
+                    "2勤務先":self.Under_2_work_Entry.get(),"就業場所":self.Work_place_combobox.get(),"雇用形態":self.emp_entry.get(),
+                    "仕事内容":self.job_entry.get(),"等級":self.rank_combobox.get(),"給与備考":self.salary_entry.get(),
+                    "出勤時間":self.work_start_entry.get(),"退勤時間":self.work_end_entry.get(),"休憩時間":self.work_break_entry.get(),
+                    "週の勤務時間":self.work_break_entry.get(),"残業の有無":self.work_over_combobox.get(),
+                    "残業開始時間":self.work_over_start_entry.get(),"残業終了時間":self.work_over_end_entry.get(),"休日":self.holiday_entry.get(),
+                    "雇用保険の有無":self.emp_ins_combobox.get(),"雇用保険番号":self.emp_ins_entry.get(),
+                    "社会保険の有無":self.soc_ins_combobox.get(),"社会保険番号":self.soc_ins_entry.get(),
+                    "定めの期間の有無":self.est_of_p_combobox.get(),"試用期間":self.trial_period_entry.get(),
+                    "更新の有無":self.Contract_renewal_combobox.get(),"更新日":self.Renewal_entry.get()}
             Interim_arrangement(data)
             
             
@@ -705,3 +741,5 @@ class StaffDetailTab:
         Establishment_of_period()
         Period()
         Registration_button()
+        Contract_renewal()
+        Renewal_day()
