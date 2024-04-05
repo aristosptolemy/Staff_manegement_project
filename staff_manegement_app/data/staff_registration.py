@@ -16,24 +16,35 @@ class Interim_arrangement(object):
         self.Data_Organization()
         
     def date_conversion(self):
-        
-        con_date = datetime.strptime(self.data["入社日"], "%Y/%m/%d")
-        self.joining_date = con_date.strftime("%Y-%m-%d")
+        try:
+            con_date = datetime.strptime(self.data["入社日"].get(), "%Y/%m/%d")
+            self.joining_date = con_date.strftime("%Y-%m-%d")
+            bir_date = datetime.strptime(self.data["生年月日"].get(), "%Y/%m/%d")
+            self.birthday_date = bir_date.strftime("%Y-%m-%d")
+            if self.data["更新の有無"].get() == "有":
+                up_date = datetime.strptime(self.data["更新日"].get(), "%Y/%m/%d")
+                self.update_date = up_date.strftime("%Y-%m-%d")
+            else:
+                self.update_date = ""
+            
+        except Exception as e:
+            print(e)
+            pass
     
     def Data_Organization(self):
         
-        Mr_data = {"氏": self.data["f名前"],"カナ": self.data["fカナ"]}
-        Name = {"名":self.data["l名前"],"カナ":self.data["lカナ"]}
-        Staff_details = {"性別":self.data["性別"],"生年月日":self.data["生年月日"],"電話番号":self.data["電話番号"],"郵便番号":self.data["郵便番号"],"住所":self.data["住所"]}
-        Soc_details = {"有無":self.data["社会保険の有無"],"番号":self.data["社会保険番号"]}
-        Emp_details = {"有無":self.data["雇用保険の有無"],"番号":self.data["雇用保険番号"]}
-        Dependent_details = {"扶養":self.data["扶養"],"人数":self.data["扶養の人数"]}
-        Under1_details = {"名前":self.data["1名前"],"続柄":self.data["1続柄"],"電話番号":self.data["1電話番号"],"勤務先":self.data["1勤務先"]}
-        Under2_details = {"名前":self.data["2名前"],"続柄":self.data["2続柄"],"電話番号":self.data["2電話番号"],"勤務先":self.data["2勤務先"]}
-        Renewal_details = {"更新":self.data["更新の有無"],"更新日":self.data["更新日"]}
-        Job_time_details = {"出勤":self.data["出勤時間"],"退勤":self.data["退勤時間"],"休憩":self.data["休憩時間"],"1週間":self.data["週の勤務時間"]}
-        Over_time_details = {"有無":self.data["残業の有無"],"開始":self.data["残業開始時間"],"終了":self.data["残業終了時間"]}
-        Means_details = {"通勤手段":self.data["通勤手段"],"交通費":self.data["メインの交通費"]}
+        Mr_data = {"氏": self.data["f名字"].get(),"カナ": self.data["fカナ"].get()}
+        Name = {"名":self.data["l名前"].get(),"カナ":self.data["lカナ"].get()}
+        Staff_details = {"性別":self.data["性別"].get(),"生年月日":self.birthday_date,"携帯電話":self.data["携帯電話"].get(),"固定電話":self.data["固定電話"].get(),"郵便番号":self.data["郵便番号"].get(),"住所":self.data["住所"].get()}
+        Soc_details = {"有無":self.data["社会保険の有無"].get(),"番号":self.data["社会保険番号"].get()}
+        Emp_details = {"有無":self.data["雇用保険の有無"].get(),"番号":self.data["雇用保険番号"].get()}
+        Dependent_details = {"扶養":self.data["扶養"].get(),"人数":self.data["扶養の人数"].get()}
+        Under1_details = {"名前":self.data["1名前"].get(),"続柄":self.data["1続柄"].get(),"電話番号":self.data["1電話番号"].get(),"勤務先":self.data["1勤務先"].get()}
+        Under2_details = {"名前":self.data["2名前"].get(),"続柄":self.data["2続柄"].get(),"電話番号":self.data["2電話番号"].get(),"勤務先":self.data["2勤務先"].get()}
+        Renewal_details = {"更新":self.data["更新の有無"].get(),"更新日":self.update_date}
+        Job_time_details = {"出勤":self.data["出勤時間"].get(),"退勤":self.data["退勤時間"].get(),"休憩":self.data["休憩時間"].get(),"1週間":self.data["週の勤務時間"].get()}
+        Over_time_details = {"有無":self.data["残業の有無"].get(),"開始":self.data["残業開始時間"].get(),"終了":self.data["残業終了時間"].get()}
+        Means_details = {"通勤手段":self.data["通勤手段"].get(),"交通費":self.data["メインの交通費"].get()}
         Sub_means_details = {"店舗1":0,"店舗2":0,"店舗3":0,"店舗4":0}
         
         
@@ -68,7 +79,10 @@ class Interim_arrangement(object):
                        "サブ交通費": Sub_means_data, "備考欄": self.data["備考"], "給与備考": self.data["給与備考"], "在籍状況": "在籍中"}
         
         
-        MySQL_New_Registration(Datail_list)
+        #MySQL_New_Registration(Datail_list)
+        
+        for key,value in self.data.items():
+            print(f'{key}:{value.get()}')
         
 
         

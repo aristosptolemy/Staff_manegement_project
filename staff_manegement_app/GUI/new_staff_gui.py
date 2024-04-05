@@ -9,11 +9,13 @@ from staff_manegement_app.data.staff_registration import Interim_arrangement
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file
 
+from tkinter import messagebox
 
 
 
 GUI_lists = load_GUI_file()
 select_lists = load_List_file()
+
 
 
 
@@ -305,34 +307,45 @@ class StaffDetailTab:
         
         
         def address_kana_area():#住所　カナ
+            address_kana_row = 16
+            
             label = ttk.Label(frame,text=GUI_lists["kana_name"], style=style_list["L"])
-            label.grid(row=14,column=1)
+            label.grid(row=address_kana_row,column=1)
             
             self.address_kana_entry = ttk.Entry(frame,width=41,font=style_list["E"])
-            self.address_kana_entry.grid(row=14,column=3,columnspan=5)
+            self.address_kana_entry.grid(row=address_kana_row,column=3,columnspan=5)
             
             
         def address_area():#住所
+            address_row = 18
+            
             label = ttk.Label(frame,text=GUI_lists["address"], style=style_list["L"])
-            label.grid(row=16,column=1)
+            label.grid(row=address_row,column=1)
             
             self.address_entry = ttk.Entry(frame,width=41,font=style_list["E"])
-            self.address_entry.grid(row=16,column=3,columnspan=5)
+            self.address_entry.grid(row=address_row,column=3,columnspan=5)
             
             Kana_change(self.address_entry,self.address_kana_entry)
             
         
         def post_number_area():#郵便番号
+            post_row = 14
+            
             label = ttk.Label(frame,text=GUI_lists["post"], style=style_list["L"])
-            label.grid(row=18,column=1)
+            label.grid(row=post_row,column=1)
             
             number_frame = ttk.Frame(frame)
-            number_frame.grid(row=18,column=3,columnspan=3)
+            number_frame.grid(row=post_row,column=3,columnspan=5)
             
             self.Post_number = ttk.Entry(number_frame,width=20,font=style_list["E"])
             self.Post_number.grid(row=0,column=0)
             
-            ToolTip_error_Post(self.Post_number,GUI_lists["post"])
+            example = ttk.Label(number_frame,text="例)730-0001⇒7300001",style=style_list["L"])
+            example.grid(row=0,column=1)
+            
+            
+            
+            ToolTip_error_Post(self.Post_number,GUI_lists["post"],self.address_entry,self.address_kana_entry)
             
             
         def dependent_area():#扶養
@@ -664,24 +677,60 @@ class StaffDetailTab:
         
         #,"":
         def Datail_summarize():
-            data = {"fカナ":self.kana1_entry.get(),"lカナ":self.kana2_entry.get(),
-                    "f名前":self.f_name_entry.get(),"l名前":self.l_name_entry.get(),
-                    "性別":self.gender_combobox.get(),"生年月日":self.birthday_entry.get(),"携帯電話":self.phone_code.get(),"固定電話":self.tell_code.get(),
-                    "入社日":self.Joining_entry.get(),"備考":self.remarks_entry.get(),"住所カナ":self.address_kana_entry.get(),"住所":self.address_entry.get(),
-                    "郵便番号":self.Post_number.get(),"扶養":self.dependent_entry.get(),"扶養の人数":self.dependent_people_entry.get(),"通勤手段":self.Means_combobox.get(),
-                    "メインの交通費":self.Means_entry.get(),"1名前":self.Under_1_name_Entry.get(),"1続柄":self.Under_1_relationship_Entry.get(),
-                    "1電話番号":self.Under_1_phone_Entry.get(),"1勤務先":self.Under_1_work_Entry.get(),
-                    "2名前":self.Under_2_name_Entry.get(),"2続柄":self.Under_2_relationship_Entry.get(),"2電話番号":self.Under_2_phone_Entry.get(),
-                    "2勤務先":self.Under_2_work_Entry.get(),"就業場所":self.Work_place_combobox.get(),"雇用形態":self.emp_entry.get(),
-                    "仕事内容":self.job_entry.get(),"等級":self.rank_combobox.get(),"給与備考":self.salary_entry.get(),
-                    "出勤時間":self.work_start_entry.get(),"退勤時間":self.work_end_entry.get(),"休憩時間":self.work_break_entry.get(),
-                    "週の勤務時間":self.work_break_entry.get(),"残業の有無":self.work_over_combobox.get(),
-                    "残業開始時間":self.work_over_start_entry.get(),"残業終了時間":self.work_over_end_entry.get(),"休日":self.holiday_entry.get(),
-                    "雇用保険の有無":self.emp_ins_combobox.get(),"雇用保険番号":self.emp_ins_entry.get(),
-                    "社会保険の有無":self.soc_ins_combobox.get(),"社会保険番号":self.soc_ins_entry.get(),
-                    "定めの期間の有無":self.est_of_p_combobox.get(),"試用期間":self.trial_period_entry.get(),
-                    "更新の有無":self.Contract_renewal_combobox.get(),"更新日":self.Renewal_entry.get()}
-            Interim_arrangement(data)
+
+            
+            data = {"fカナ":self.kana1_entry,"lカナ":self.kana2_entry,
+                    "f名字":self.f_name_entry,"l名前":self.l_name_entry,
+                    "性別":self.gender_combobox,"生年月日":self.birthday_entry,"携帯電話":self.phone_code,"固定電話":self.tell_code,
+                    "入社日":self.Joining_entry,"備考":self.remarks_entry,"住所カナ":self.address_kana_entry,"住所":self.address_entry,
+                    "郵便番号":self.Post_number,"扶養":self.dependent_entry,"扶養の人数":self.dependent_people_entry,"通勤手段":self.Means_combobox,
+                    "メインの交通費":self.Means_entry,"1名前":self.Under_1_name_Entry,"1続柄":self.Under_1_relationship_Entry,
+                    "1電話番号":self.Under_1_phone_Entry,"1勤務先":self.Under_1_work_Entry,
+                    "2名前":self.Under_2_name_Entry,"2続柄":self.Under_2_relationship_Entry,"2電話番号":self.Under_2_phone_Entry,
+                    "2勤務先":self.Under_2_work_Entry,"就業場所":self.Work_place_combobox,"雇用形態":self.emp_entry,
+                    "仕事内容":self.job_entry,"等級":self.rank_combobox,"給与備考":self.salary_entry,
+                    "出勤時間":self.work_start_entry,"退勤時間":self.work_end_entry,"休憩時間":self.work_break_entry,
+                    "週の勤務時間":self.work_break_entry,"残業の有無":self.work_over_combobox,
+                    "残業開始時間":self.work_over_start_entry,"残業終了時間":self.work_over_end_entry,"休日":self.holiday_entry,
+                    "雇用保険の有無":self.emp_ins_combobox,"雇用保険番号":self.emp_ins_entry,
+                    "社会保険の有無":self.soc_ins_combobox,"社会保険番号":self.soc_ins_entry,
+                    "定めの期間の有無":self.est_of_p_combobox,"試用期間":self.trial_period_entry,
+                    "更新の有無":self.Contract_renewal_combobox,"更新日":self.Renewal_entry}
+            
+            if (self.kana1_entry.get() == "") or (self.kana2_entry.get() == "") or (self.f_name_entry.get() == "") or (self.l_name_entry.get() == ""):
+                message_error = []
+                
+                if self.kana1_entry.get() == "":
+                    message_error.append("カナ姓")
+                if self.kana2_entry.get() == "":
+                    message_error.append("カナ名")
+                if self.f_name_entry.get() == "":
+                    message_error.append("名字")
+                if self.l_name_entry.get() == "":
+                    message_error.append("名前")
+                
+                message_open = ""
+                for i in message_error:
+                    if i != message_error[-1]:
+                        message_open += (i+"・")
+                    else:
+                        message_open += i
+                        
+                def show_message():
+                    new_root = tk.Tk()
+                    
+                    message = f'[{message_open}]\nが入力されていません。'
+                    label = ttk.Label(new_root, text=message, font=('HGP教科書体', 20), foreground="#dc143c")
+                    label.pack()
+                    button = ttk.Button(new_root, text="OK", command=new_root.destroy, style=style_list["B"])
+                    button.pack()
+                    new_root.mainloop()
+                show_message()
+                
+
+            else:
+                print("登録")
+                Interim_arrangement(data)
             
             
         

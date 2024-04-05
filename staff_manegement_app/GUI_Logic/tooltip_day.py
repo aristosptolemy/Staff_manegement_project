@@ -191,10 +191,12 @@ class ToolTip_error(object):
 
 
 class ToolTip_error_Post(object):
-    def __init__(self, widget,title):
+    def __init__(self, widget,title,widget_2,widget_3):
         self.waittime = 200     # ミリ秒
         self.wraplength = 180   # ピクセル
         self.widget = widget
+        self.widget_address = widget_2
+        self.widget_address_kana = widget_3
         self.title = title
         self.widget.bind("<FocusOut>", self.try_convert)
         self.id = None
@@ -220,7 +222,7 @@ class ToolTip_error_Post(object):
 
 
         if len(post_num) == len_num:
-            FormatConvert_Post(self.widget,post_num,len_num)
+            FormatConvert_Post(self.widget,post_num,len_num,self.widget_address,self.widget_address_kana)
             self.leave()
         else:
             self.leave()
