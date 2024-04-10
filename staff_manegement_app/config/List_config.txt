@@ -19,4 +19,9 @@ work_place:西条東店,高屋店,フジ前店,黒瀬店,竹原店,Hi-sai店,キ
 #有無
 presence_or_absence:有,無
 
+#在籍状況
+Enrollment:在籍中,退職済
 
+
+#検索結果リストカラム
+search_result_columnname:就業場所,氏,名,雇用形態,在籍状況

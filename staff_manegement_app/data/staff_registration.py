@@ -44,7 +44,7 @@ class Interim_arrangement(object):
         Renewal_details = {"更新":self.data["更新の有無"].get(),"更新日":self.update_date}
         Job_time_details = {"出勤":self.data["出勤時間"].get(),"退勤":self.data["退勤時間"].get(),"休憩":self.data["休憩時間"].get(),"1週間":self.data["週の勤務時間"].get()}
         Over_time_details = {"有無":self.data["残業の有無"].get(),"開始":self.data["残業開始時間"].get(),"終了":self.data["残業終了時間"].get()}
-        Means_details = {"通勤手段":self.data["通勤手段"].get(),"交通費":self.data["メインの交通費"].get()}
+        Means_details = {"通勤手段":self.data["通勤手段"].get(),f"通勤{self.data["手当種類"].get()}":self.data["メインの交通費"].get()}
         Sub_means_details = {"店舗1":0,"店舗2":0,"店舗3":0,"店舗4":0}
         
         
@@ -73,13 +73,13 @@ class Interim_arrangement(object):
         
         Datail_list = {"氏": Mr_data, "名": Name_data, "スタッフ詳細": Staff_data, "社会保険": Soc_data, "雇用保険": Emp_data,
                        "扶養": Dependent_data, "身元引受人1": Under1_data, "身元引受人2": Under2_data, "入社日": self.joining_date,
-                       "更新": Renewal_data, "期間の定め": self.data["定めの期間の有無"], "試用期間": self.data["試用期間"], 
-                       "勤務形態": self.data["雇用形態"], "所属店舗": self.data["就業場所"],"等級": self.data["等級"], 
-                       "勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"],"主な交通費": Means_data, 
-                       "サブ交通費": Sub_means_data, "備考欄": self.data["備考"], "給与備考": self.data["給与備考"], "在籍状況": "在籍中"}
+                       "更新": Renewal_data, "期間の定め": self.data["定めの期間の有無"].get(), "試用期間": self.data["試用期間"].get(), 
+                       "勤務形態": self.data["雇用形態"].get(), "所属店舗": self.data["就業場所"].get(),"等級": self.data["等級"].get(), 
+                       "勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"].get(),"主な交通費": Means_data, 
+                       "サブ交通費": Sub_means_data, "備考欄": self.data["備考"].get(), "給与備考": self.data["給与備考"].get(), "在籍状況": "在籍中"}
         
         
-        #MySQL_New_Registration(Datail_list)
+        MySQL_New_Registration(Datail_list)
         
         for key,value in self.data.items():
             print(f'{key}:{value.get()}')

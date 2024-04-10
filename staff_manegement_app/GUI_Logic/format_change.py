@@ -96,12 +96,10 @@ class FormatConvert_Post(object):
         post_code = self.post_num
         URL = 'https://zipcloud.ibsnet.co.jp/api/search'
         res = requests.get(URL, params={'zipcode': post_code})
-        pprint(res.json())
         data = res.json()
         
-        insert_post = f"{data["results"][0]["address1"]}{data["results"][0]["address2"]}{data["results"][0]["address3"]}"
-        kana_data = f"{data["results"][0]["kana1"]}{data["results"][0]["kana2"]}{data["results"][0]["kana3"]}"
-        print(insert_post)
+        insert_post = f"{data["results"][0]["address2"]}{data["results"][0]["address3"]}"
+        kana_data = f"{data["results"][0]["kana2"]}{data["results"][0]["kana3"]}"
         if self.address.get() == "":
             self.address.insert(tk.END,insert_post)
             ad_kana = jaconv.h2z(kana_data)

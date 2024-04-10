@@ -37,3 +37,5 @@ period = 試用期間:
 Registration = 登録
 Contract_renewal = 更新:
 Renewal_day = 更新日:
+Enrollment = 在籍状況:
+Search = 検索

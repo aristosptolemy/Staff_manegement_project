@@ -567,8 +567,8 @@ class StaffDetailTab:
             label = ttk.Label(frame,text=GUI_lists["working_week_time"], style=style_list["L"])
             label.grid(row=42,column=6)
             
-            self.work_break_entry = ttk.Entry(frame,width=10,font=style_list["E"])
-            self.work_break_entry.grid(row=42,column=7)
+            self.work_week_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_week_entry.grid(row=42,column=7)
             
             
         def Overtime_or():#残業の有無
@@ -679,18 +679,20 @@ class StaffDetailTab:
         def Datail_summarize():
 
             
+
+            
             data = {"fカナ":self.kana1_entry,"lカナ":self.kana2_entry,
                     "f名字":self.f_name_entry,"l名前":self.l_name_entry,
                     "性別":self.gender_combobox,"生年月日":self.birthday_entry,"携帯電話":self.phone_code,"固定電話":self.tell_code,
                     "入社日":self.Joining_entry,"備考":self.remarks_entry,"住所カナ":self.address_kana_entry,"住所":self.address_entry,
                     "郵便番号":self.Post_number,"扶養":self.dependent_entry,"扶養の人数":self.dependent_people_entry,"通勤手段":self.Means_combobox,
-                    "メインの交通費":self.Means_entry,"1名前":self.Under_1_name_Entry,"1続柄":self.Under_1_relationship_Entry,
+                    "メインの交通費":self.Means_entry,"1名前":self.Under_1_name_Entry,"1続柄":self.Under_1_relationship_Entry,"手当種類":self.amount_label,
                     "1電話番号":self.Under_1_phone_Entry,"1勤務先":self.Under_1_work_Entry,
                     "2名前":self.Under_2_name_Entry,"2続柄":self.Under_2_relationship_Entry,"2電話番号":self.Under_2_phone_Entry,
                     "2勤務先":self.Under_2_work_Entry,"就業場所":self.Work_place_combobox,"雇用形態":self.emp_entry,
                     "仕事内容":self.job_entry,"等級":self.rank_combobox,"給与備考":self.salary_entry,
                     "出勤時間":self.work_start_entry,"退勤時間":self.work_end_entry,"休憩時間":self.work_break_entry,
-                    "週の勤務時間":self.work_break_entry,"残業の有無":self.work_over_combobox,
+                    "週の勤務時間":self.work_week_entry,"残業の有無":self.work_over_combobox,
                     "残業開始時間":self.work_over_start_entry,"残業終了時間":self.work_over_end_entry,"休日":self.holiday_entry,
                     "雇用保険の有無":self.emp_ins_combobox,"雇用保険番号":self.emp_ins_entry,
                     "社会保険の有無":self.soc_ins_combobox,"社会保険番号":self.soc_ins_entry,
