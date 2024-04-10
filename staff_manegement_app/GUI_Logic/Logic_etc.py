@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from staff_manegement_app.data.SQL import Rank_List_Manager
+import json
 
 class Allowance_change(object):#通勤手当自動判定
     def __init__(self, widget,variable):
@@ -40,3 +41,7 @@ class Work_place_rank_change(object):
         # コンボボックスにリストをセット
         self.widgetc['values'] = out_put
         return 
+
+
+
+    

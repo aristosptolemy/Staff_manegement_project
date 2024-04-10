@@ -1,4 +1,11 @@
 import mysql.connector
+import json
+from ..GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
+from staff_manegement_app.GUI.load_config import load_GUI_file
+from staff_manegement_app.GUI.load_config import load_List_file
+
+GUI_lists = load_GUI_file()
+select_lists = load_List_file()
 
 config = {
     'host': '192.168.11.9',
@@ -66,19 +73,20 @@ class MySQL_New_Registration(object):
             
             cursor.execute('''
                         INSERT INTO staff_list_test (氏,名,スタッフ詳細,社会保険,雇用保険,扶養,身元引受人１,身元引受人２,入社日,
-                        更新,期間の定め,試用期間,勤務形態,所属店舗,等級,勤務時間,残業,主な交通費,サブ交通費,備考欄,給与備考,在籍状況) 
+                        更新,期間の定め,試用期間,雇用形態,就業場所,等級,勤務時間,残業,主な交通費,サブ交通費,備考欄,給与備考,在籍状況) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);''',
                         (self.data["氏"],self.data["名"],self.data["スタッフ詳細"],self.data["社会保険"],self.data["雇用保険"],
                          self.data["扶養"],self.data["身元引受人1"],self.data["身元引受人2"],self.data["入社日"],
-                         self.data["更新"],self.data["期間の定め"],self.data["試用期間"],self.data["勤務形態"],self.data["所属店舗"],
+                         self.data["更新"],self.data["期間の定め"],self.data["試用期間"],self.data["雇用形態"],self.data["就業場所"],
                          self.data["等級"],self.data["勤務時間"],self.data["残業"],self.data["主な交通費"],self.data["サブ交通費"],
                          self.data["備考欄"],self.data["給与備考"],self.data["在籍状況"]))
             
             conn.commit()
 
 class MySQL_Staff_Search(object):
-    def __init__(self, data):
+    def __init__(self, data, widget):
         self.data = data
+        self.widget = widget
         self.MySQL_search_test()
 
     def MySQL_search_test(self):
@@ -93,24 +101,32 @@ class MySQL_Staff_Search(object):
                 if isinstance(value, dict):  # ネストされた辞書の処理
                     for sub_key, sub_value in value.items():
                         if sub_value:  # 空の文字列でない場合に条件を追加
+
                             if key == "氏":
-                                query += f" AND JSON_EXTRACT(氏, '$.{sub_key}') = %s"
+                                query += f''' AND JSON_EXTRACT(氏, '$."{sub_key}"') = %s'''
                                 params.append(sub_value)
                             elif key == "名":
-                                query += f" AND JSON_EXTRACT(名, '$.{sub_key}') = %s"
+                                query += f''' AND JSON_EXTRACT(名, '$."{sub_key}"') = %s'''
                                 params.append(sub_value)
                             elif key == "性別":
-                                query += f" AND JSON_EXTRACT(スタッフ詳細, '$.{sub_key}') = %s"
+                                query += f''' AND JSON_EXTRACT(スタッフ詳細, '$."{sub_key}"') = %s'''
                                 params.append(sub_value)
                 elif value:  # ネストされていない直接の値の処理
                     query += f" AND {key} = %s"
                     params.append(value)
             
-
             cursor.execute(query, params)
             results = cursor.fetchall()
+            
+            Search_Staff_List_INSERT(results,self.widget)
+            
 
             
-            print(results)
+class MySQL_Select_Details(object):
+    def __init__(self,data):
+        self.data = data
 
+        
+        
+        
 

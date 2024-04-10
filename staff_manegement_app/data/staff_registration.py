@@ -74,7 +74,7 @@ class Interim_arrangement(object):
         Datail_list = {"氏": Mr_data, "名": Name_data, "スタッフ詳細": Staff_data, "社会保険": Soc_data, "雇用保険": Emp_data,
                        "扶養": Dependent_data, "身元引受人1": Under1_data, "身元引受人2": Under2_data, "入社日": self.joining_date,
                        "更新": Renewal_data, "期間の定め": self.data["定めの期間の有無"].get(), "試用期間": self.data["試用期間"].get(), 
-                       "勤務形態": self.data["雇用形態"].get(), "所属店舗": self.data["就業場所"].get(),"等級": self.data["等級"].get(), 
+                       "雇用形態": self.data["雇用形態"].get(), "就業場所": self.data["就業場所"].get(),"等級": self.data["等級"].get(), 
                        "勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"].get(),"主な交通費": Means_data, 
                        "サブ交通費": Sub_means_data, "備考欄": self.data["備考"].get(), "給与備考": self.data["給与備考"].get(), "在籍状況": "在籍中"}
         

@@ -145,18 +145,18 @@ class Staff_Search_Tab:
                 "在籍状況": self.roll_status.get(),
                 "スタッフ詳細": {"性別": self.gender_status.get()},
                 "氏": {
-                    "カナ": self.fkana_search.get(),
-                    "氏": self.fname_search.get()
+                    "氏": self.fname_search.get(),
+                    "カナ": self.fkana_search.get()
                 },
                 "名": {
-                    "カナ": self.lkana_search.get(),
-                    "名": self.lname_search.get()
+                    "名": self.lname_search.get(),
+                    "カナ": self.lkana_search.get()
                 },
                 "就業場所": self.work_place_status.get(),
                 "雇用形態": self.emp_type_status.get()
             }
             
-            MySQL_Staff_Search(data)
+            MySQL_Staff_Search(data,self.result_box)
             
             
         def search_result_list():
@@ -165,20 +165,20 @@ class Staff_Search_Tab:
             #column_names = ['就業場所', '氏', '名', '雇用形態', '在籍状況']
 
             # Treeviewの作成
-            result_box = ttk.Treeview(frame, columns=column_names, show="headings", style=style_list["T"])
-            result_box.column('就業場所', anchor='center', width=100)
-            result_box.column('氏', anchor='center', width=100)
-            result_box.column('名', anchor='center', width=100)
-            result_box.column('雇用形態', anchor='center', width=100)
-            result_box.column('在籍状況', anchor='center', width=100)
+            self.result_box = ttk.Treeview(frame, columns=column_names, show="headings", style=style_list["T"])
+            self.result_box.column('就業場所', anchor='center', width=100)
+            self.result_box.column('氏', anchor='center', width=100)
+            self.result_box.column('名', anchor='center', width=100)
+            self.result_box.column('雇用形態', anchor='center', width=100)
+            self.result_box.column('在籍状況', anchor='center', width=100)
 
-            result_box.heading('就業場所', text='就業場所', anchor='center')
-            result_box.heading('氏', text='氏', anchor='center')
-            result_box.heading('名', text='名', anchor='center')
-            result_box.heading('雇用形態', text='雇用形態', anchor='center')
-            result_box.heading('在籍状況', text='在籍状況', anchor='center')
+            self.result_box.heading('就業場所', text='就業場所', anchor='center')
+            self.result_box.heading('氏', text='氏', anchor='center')
+            self.result_box.heading('名', text='名', anchor='center')
+            self.result_box.heading('雇用形態', text='雇用形態', anchor='center')
+            self.result_box.heading('在籍状況', text='在籍状況', anchor='center')
 
-            result_box.grid(row=20, column=0, columnspan=8, sticky='nsew')
+            self.result_box.grid(row=20, column=0, columnspan=8, sticky='nsew')
             
             
             
