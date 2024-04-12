@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import pykakasi
-from staff_manegement_app.data.SQL import MySQL_Staff_Search
+from staff_manegement_app.data.SQL_center import MySQL_Staff_Search
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file
 

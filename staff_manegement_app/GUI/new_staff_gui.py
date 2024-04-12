@@ -4,7 +4,7 @@ from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip
 from ..GUI_Logic.text_box_RE import Open_text_box
 from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
 from ..GUI_Logic.format_change import Kana_change
-from staff_manegement_app.data.SQL import Rank_List_Manager
+from staff_manegement_app.data.SQL_center import Rank_List_Manager
 from staff_manegement_app.data.staff_registration import Interim_arrangement
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file

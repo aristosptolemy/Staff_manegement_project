@@ -5,7 +5,7 @@ from datetime import datetime
 
 import json
 
-from staff_manegement_app.data.SQL import MySQL_New_Registration
+from staff_manegement_app.data.SQL_center import MySQL_New_Registration
 
 
 

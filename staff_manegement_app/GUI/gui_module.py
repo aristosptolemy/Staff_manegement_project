@@ -3,7 +3,7 @@ from tkinter import ttk
 from .new_staff_gui import StaffDetailTab
 from .staff_search_gui import Staff_Search_Tab
 from .rank_gui import rank_list_tab
-from staff_manegement_app.data.SQL import Rank_List_Manager
+from staff_manegement_app.data.SQL_center import Rank_List_Manager
 
 class Apps(ttk.Frame):
     def __init__(self, master=None):

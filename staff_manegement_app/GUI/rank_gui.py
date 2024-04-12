@@ -1,6 +1,6 @@
 import pandas as pd
 from pandastable import Table, TableModel
-import mysql.connector
+
 
 
 import tkinter as tk

@@ -25,7 +25,7 @@ class Search_Staff_List_INSERT(object):
             
             
     def open_logic(self,event=None):
-        from staff_manegement_app.data.SQL import MySQL_Select_Details
+        from staff_manegement_app.data.SQL_center import MySQL_Select_Details
         record_id = self.widget.focus()
         record_values = self.widget.item(record_id, 'values')
         MySQL_Select_Details(record_values)

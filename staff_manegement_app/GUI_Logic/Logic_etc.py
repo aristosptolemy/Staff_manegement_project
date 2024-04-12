@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from staff_manegement_app.data.SQL import Rank_List_Manager
+from staff_manegement_app.data.SQL_center import Rank_List_Manager
 import json
 
 class Allowance_change(object):#通勤手当自動判定

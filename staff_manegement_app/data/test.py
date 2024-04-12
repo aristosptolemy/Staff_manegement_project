@@ -1,4 +1,4 @@
-from SQL import Rank_List_Manager
+from staff_manegement_app.data.SQL_center import Rank_List_Manager
 #from encryption_conversion import Decrypt_Data_Conversion
 
 
