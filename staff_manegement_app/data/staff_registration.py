@@ -81,8 +81,7 @@ class Interim_arrangement(object):
         
         MySQL_New_Registration(Datail_list)
         
-        for key,value in self.data.items():
-            print(f'{key}:{value.get()}')
+
         
 
         
