@@ -1,7 +1,8 @@
 import mysql.connector
 import json  
 
-from ..data.encryption_conversion import Decrypt_Data_Conversion
+from staff_manegement_app.data.encryption_conversion import Decrypt_Data_Conversion
+
 
 config = {
     'host': '192.168.11.9',
