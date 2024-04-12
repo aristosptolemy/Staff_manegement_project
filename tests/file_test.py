@@ -1,20 +1,14 @@
 
-import mysql.connector
-import json  
-
-
 config = {
     'host': '192.168.11.9',
     'user': 'STAFF_MANAGEMENT',
+    'port': '3306',
     'password': 'yoshi115STAFFMySQL',
-    'database': 'yoshi_schema'
+    'database': 'yoshi_schema',
+    'auth_plugin': 'mysql_native_password',
 }
 
 
-text = "print_out_test"
-print(text)
-from staff_manegement_app.data.encryption_conversion import Out_Put_Test
-Out_Put_Test(text)
 
 
 

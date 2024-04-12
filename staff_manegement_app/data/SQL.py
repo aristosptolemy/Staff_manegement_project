@@ -9,13 +9,16 @@ from .encryption_conversion import Encryption_Data_Conversion
 
 GUI_lists = load_GUI_file()
 select_lists = load_List_file()
-
 config = {
     'host': '192.168.11.9',
     'user': 'STAFF_MANAGEMENT',
+    'port': '3306',
     'password': 'yoshi115STAFFMySQL',
-    'database': 'yoshi_schema'
+    'database': 'yoshi_schema',
+    'auth_plugin': 'mysql_native_password',
 }
+
+
 My_SQL_table_Name = "staff_list_test"
 
 

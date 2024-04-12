@@ -1,4 +1,3 @@
-
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.backends import default_backend
@@ -9,13 +8,6 @@ test_key = b'by\x86\x10\xad\xb3\xf3\xf3\xb6i\x89\x96\x13\x8f\x17\xcd\xd7S\x96\xe
 
 not_encode = ["id","就業場所"]
 
-class Out_Put_Test(object):
-    def __init__(self,data):
-        self.data = data
-        self.out_put(self.data)
-        
-    def out_put(self,data):
-        print(data)
 
 
 
@@ -28,12 +20,18 @@ class Decrypt_Data_Conversion(object):
     
     def decrypt_data(self, encrypted_list, key):
         
-        decrypted_dict = {}
+        self.decrypted_dict = {}
         for d_key,d_value in encrypted_list.items():
+
+            
             if d_key in not_encode:
-                decrypted_dict[d_key] = d_value
+                
+                self.decrypted_dict[d_key] = d_value
             else:
-                iv, encrypted = d_value
+                parts = d_value.split(':')
+                iv_hex, encrypted_hex = parts
+                iv = bytes.fromhex(iv_hex)  # IVを16進数の文字列からバイト型に変換
+                encrypted = bytes.fromhex(encrypted_hex)
 
                 cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
                 decryptor = cipher.decryptor()
@@ -50,11 +48,19 @@ class Decrypt_Data_Conversion(object):
                 except ValueError:
                     raise ValueError("Invalid padding bytes. Check if the key or IV are correct.")
                 
-                decrypted_dict[d_key] = plaintext.decode('utf-8')
+                self.decrypted_dict[d_key] = plaintext.decode('utf-8')
             
             
-        print(decrypted_dict)
-        return decrypted_dict
+        print(self.decrypted_dict)
+        
+        
+        
+        
+        return self.decrypted_dict
+    
+    def get_data(self):
+        return self.decrypted_dict
+    
     
     
 
