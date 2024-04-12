@@ -1,4 +1,4 @@
-
+import mysql.connector
 config = {
     'host': '192.168.11.9',
     'user': 'STAFF_MANAGEMENT',
@@ -13,7 +13,7 @@ config = {
 
 
 
-"""
+
 with mysql.connector.connect(**config) as conn:
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM staff_list_test WHERE id = 4;")
@@ -21,5 +21,5 @@ with mysql.connector.connect(**config) as conn:
     
     column_names = [i[0] for i in cursor.description]
     result_dict = dict(zip(column_names, result))
-    Decrypt_Data_Conversion(result_dict)
-"""
+    print(result_dict)
+    #Decrypt_Data_Conversion(result_dict)

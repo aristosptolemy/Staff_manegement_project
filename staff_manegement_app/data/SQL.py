@@ -1,7 +1,9 @@
 import mysql.connector
 import json
+"""
 from staff_manegement_app.GUI.staff_details_GUI import Staff_Details_Display
 from ..GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
+
 from staff_manegement_app.GUI.load_config import load_GUI_file
 from staff_manegement_app.GUI.load_config import load_List_file
 
@@ -9,6 +11,8 @@ from .encryption_conversion import Encryption_Data_Conversion
 
 GUI_lists = load_GUI_file()
 select_lists = load_List_file()
+"""
+
 config = {
     'host': '192.168.11.9',
     'user': 'STAFF_MANAGEMENT',
@@ -22,8 +26,13 @@ config = {
 My_SQL_table_Name = "staff_list_test"
 
 
-class Rank_List_Manager:
+class Rank_List_Manager(object):
+    def __init__(self):
+        
+        self.rank_number_list_store_get()
+    
     def rank_number_list_store_get(self):
+        
         with mysql.connector.connect(**config) as conn:
             cursor = conn.cursor()
             
@@ -47,7 +56,7 @@ class Rank_List_Manager:
                 else:
                     insert = f'{f1}{s2}'
                 rank_num_list.append(insert)
-                
+        print(rank_num_list)
         return rank_num_list
             
 
@@ -154,6 +163,7 @@ class MySQL_Select_Details(object):
             result = cursor.fetchall()
             Staff_Details_Display(result)
 
+Rank_List_Manager()
         
         
         
