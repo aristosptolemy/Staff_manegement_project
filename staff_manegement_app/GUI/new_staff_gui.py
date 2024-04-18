@@ -1,19 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
-from ..GUI_Logic.text_box_RE import Open_text_box
-from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
-from ..GUI_Logic.format_change import Kana_change
-from staff_manegement_app.data.staff_registration import Interim_arrangement
-from staff_manegement_app.GUI.load_config import load_GUI_file
-from staff_manegement_app.GUI.load_config import load_List_file
-
-from tkinter import messagebox
-
-
-
-GUI_lists = load_GUI_file()
-select_lists = load_List_file()
 
 
 
@@ -65,13 +52,13 @@ class StaffDetailTab:
             canvas.xview_scroll(int(-1*(event.delta/120)), "units")  # 横スクロール用
 
         canvas.bind("<MouseWheel>", on_mousewheel)
-        canvas.bind("<Shift-MouseWheel>", on_shift_mousewheel)  # 横スクロールのためにShiftキーを使用
-
+        
+        """
         # Linux用のバインディング（上スクロール）
         canvas.bind("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
         # Linux用のバインディング（下スクロール）
         canvas.bind("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
-
+        """
         # キャンバス上に配置するウィジェット用のフレーム
         staff_input_frame = ttk.Frame(canvas)
         staff_input_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
@@ -91,6 +78,9 @@ class StaffDetailTab:
         }
         c_span_max = 13
         row_max = 50
+        from staff_manegement_app.GUI.load_config import load_GUI_file,load_List_file
+        GUI_lists = load_GUI_file()
+        select_lists = load_List_file()
 
         #padx=4 横幅
         #pady=4　縦幅
@@ -230,13 +220,16 @@ class StaffDetailTab:
             
             self.f_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
             self.f_name_entry.grid(row=4,column=3,columnspan=2)
+            self.f_name_entry.bind('<FocusOut>',lambda event:Kana_f_change(self.f_name_entry,self.kana1_entry))
             
-            Kana_change(self.f_name_entry,self.kana1_entry)
+            
             
             self.l_name_entry = ttk.Entry(frame,width=20, font=style_list["E"])
             self.l_name_entry.grid(row=4,column=6,columnspan=2)
+            self.l_name_entry.bind('<FocusOut>',lambda event:Kana_f_change(self.l_name_entry,self.kana2_entry))
             
-            Kana_change(self.l_name_entry,self.kana2_entry)
+            
+            
         
         
         def gender_choice():#性別選択
@@ -301,8 +294,9 @@ class StaffDetailTab:
             
             self.remarks_entry = ttk.Entry(frame,width=12,font=style_list["E"])
             self.remarks_entry.grid(row=10,column=10)
+            self.remarks_entry.bind("<Button-1>", lambda event:TEXT_BOX(self.remarks_entry))
             
-            Open_text_box(self.remarks_entry)
+            
         
         
         def address_kana_area():#住所　カナ
@@ -324,7 +318,7 @@ class StaffDetailTab:
             self.address_entry = ttk.Entry(frame,width=41,font=style_list["E"])
             self.address_entry.grid(row=address_row,column=3,columnspan=5)
             
-            Kana_change(self.address_entry,self.address_kana_entry)
+            self.address_entry.bind('<FocusOut>',lambda event:Kana_f_change(self.address_entry,self.address_kana_entry))
             
         
         def post_number_area():#郵便番号
@@ -353,8 +347,8 @@ class StaffDetailTab:
             
             self.dependent_entry = ttk.Entry(frame,width=12,font=style_list["E"])
             self.dependent_entry.grid(row=14,column=10)
+            self.dependent_entry.bind("<Button-1>", lambda event:TEXT_BOX(self.dependent_entry))
             
-            Open_text_box(self.dependent_entry)
             
         
         def dependent_people_area():#扶養の人数
@@ -475,11 +469,8 @@ class StaffDetailTab:
             self.emp_entry = ttk.Combobox(frame,width=10,values=select_lists['emp_type'],font=style_list["E"],state=style_list["S"])
             self.emp_entry.grid(row=36,column=3)
             self.emp_entry.set(select_lists['emp_type'][0])
-            
-            Allowance_change(self.emp_entry,self.amount_label)
-            
-            #emp_entry.bind('<<ComboboxSelected>>',)
-            
+            self.emp_entry.bind('<<ComboboxSelected>>',change_Allowance)
+
             
         def Job_description():#仕事内容
             label = ttk.Label(frame,text=GUI_lists["job_description"], style=style_list["L"])
@@ -495,8 +486,8 @@ class StaffDetailTab:
 
             self.rank_combobox = ttk.Combobox(frame,width=10,values=self.rank_list,font=style_list["E"],state=style_list["S"])
             self.rank_combobox.grid(row=40,column=3)
+            self.rank_combobox.bind('<<ComboboxSelected>>',change_Work_place)
             
-            Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
             
         
         def Contract_renewal():
@@ -525,8 +516,8 @@ class StaffDetailTab:
             
             self.salary_entry = ttk.Entry(frame,width=12,font=style_list["E"])
             self.salary_entry.grid(row=42,column=3)
+            self.salary_entry.bind("<Button-1>", lambda event:TEXT_BOX(self.salary_entry))
             
-            Open_text_box(self.salary_entry)
             
         
         def Working_conditions():#労働条件
@@ -605,8 +596,8 @@ class StaffDetailTab:
             
             self.holiday_entry = ttk.Entry(frame,width=10,font=style_list["E"])
             self.holiday_entry.grid(row=42,column=10)
+            self.holiday_entry.bind("<Button-1>", lambda event:TEXT_BOX(self.holiday_entry))
             
-            Open_text_box(self.holiday_entry)
         
         
         def Employment_insurance():#雇用保険
@@ -731,12 +722,26 @@ class StaffDetailTab:
 
             else:
                 print("登録")
+                from staff_manegement_app.data.staff_registration import Interim_arrangement
                 Interim_arrangement(data)
             
             
         
+        def Kana_f_change(widget,widget2):
+            from ..GUI_Logic.format_change import Kana_change
+            Kana_change(widget,widget2)
+            
+        def TEXT_BOX(widget):
+            from ..GUI_Logic.text_box_RE import Open_text_box
+            Open_text_box(widget)
         
-        
+        def change_Allowance():
+            from ..GUI_Logic.Logic_etc import Allowance_change
+            Allowance_change(self.emp_entry,self.amount_label)
+            
+        def change_Work_place():
+            from ..GUI_Logic.Logic_etc import Work_place_rank_change
+            Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
         
         
         sepa()

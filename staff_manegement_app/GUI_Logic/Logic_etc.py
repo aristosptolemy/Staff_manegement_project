@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from staff_manegement_app.data.SQL_center import Rank_List_Manager
-import json
 
 class Allowance_change(object):#通勤手当自動判定
     def __init__(self, widget,variable):
@@ -24,6 +22,7 @@ class Work_place_rank_change(object):
         self.widget = widget
         self.widgetc = widget_c
         self.variable = variable
+        from staff_manegement_app.data.SQL_center import Rank_List_Manager
         self.rank_manager = Rank_List_Manager()
         self.change()
         self.widget.bind('<<ComboboxSelected>>',self.change)
@@ -44,4 +43,43 @@ class Work_place_rank_change(object):
 
 
 
+class Toggle_Button_rank:
+    def __init__(self,frame,table):
+        self.frame = frame
+        self.table = table
+        self.store_on = False
+        self.office_on = True
+        self.Toggle_buttton_set(self.frame)
+        self.toggle(self.store_button,self.office_button)
+        
+        
+    def Toggle_buttton_set(self,frame):
+        button_frame = ttk.Frame(frame)
+        button_frame.pack()
+        self.store_button = ttk.Button(button_frame, text="店舗担当", style="ButtonStyle.TButton", command=lambda: self.toggle(self.store_button,self.office_button))
+        self.store_button.id = "rank_list"
+        self.store_button.pack(side=tk.LEFT)
+        
+        self.office_button = ttk.Button(button_frame, text="総務担当", style="ButtonStyle.TButton", command=lambda: self.toggle(self.office_button,self.store_button))
+        self.office_button.id = "office_rank_list"
+        self.office_button.pack(side=tk.LEFT)
     
+    
+    def toggle(self,widget,widget2):
+        from staff_manegement_app.data.SQL_center import Rank_list_update
+        
+        self.store_on = not self.store_on
+        self.office_on = not self.office_on
+
+        widget.config(style="Green.TButton")
+        widget2.config(style="Red.TButton")
+        
+        
+        
+        Rank_list_update(widget.id,self.table)
+        
+        
+
+        #print(widget.id)
+            
+            

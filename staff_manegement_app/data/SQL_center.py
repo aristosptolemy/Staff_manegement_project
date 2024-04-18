@@ -1,17 +1,7 @@
 import mysql.connector
+import pandas as pd
+pd.set_option('future.no_silent_downcasting', True)
 
-import json
-
-from staff_manegement_app.GUI.staff_details_GUI import Staff_Details_Display
-from ..GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
-
-from staff_manegement_app.GUI.load_config import load_GUI_file
-from staff_manegement_app.GUI.load_config import load_List_file
-
-from .encryption_conversion import Encryption_Data_Conversion
-
-GUI_lists = load_GUI_file()
-select_lists = load_List_file()
 
 """
 config = {
@@ -21,7 +11,9 @@ config = {
     'password': 'yoshi115STAFFMySQL',
     'database': 'yoshi_schema',
 }
+
 """
+
 config = {
     'host':'localhost',
     'user':'test_user',
@@ -59,7 +51,8 @@ class Rank_List_Manager():
                 else:
                     insert = f'{f1}{s2}'
                 rank_num_list.append(insert)
-        print(rank_num_list)
+        
+    
         return rank_num_list
             
 
@@ -83,7 +76,7 @@ class Rank_List_Manager():
 class MySQL_New_Registration(object):
     def __init__(self,data):
         self.data = data
-        
+        from .encryption_conversion import Encryption_Data_Conversion
         self.Encryption_Conversion_data = Encryption_Data_Conversion(self.data)
         set_data = self.Encryption_Conversion_data.get_data()
 
@@ -145,7 +138,7 @@ class MySQL_Staff_Search(object):
             
             cursor.execute(query, params)
             results = cursor.fetchall()
-            
+            from ..GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
             Search_Staff_List_INSERT(results,self.widget)
             
 
@@ -165,10 +158,145 @@ class MySQL_Select_Details(object):
             
             cursor.execute(query,params)
             result = cursor.fetchall()
+            from staff_manegement_app.GUI.staff_details_GUI import Staff_Details_Display
             Staff_Details_Display(result)
 
-Rank_List_Manager()
-        
+
         
         
 
+
+class Rank_list_all:
+    def __init__(self):
+        
+        
+        self.rank_list =[]
+        self.rank_table = "rank_list"
+        self.rank_list_get(self.rank_table)
+        self.column_names_get()
+    
+    def column_names_get(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'''
+                    SELECT COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = 'rank_list'
+                    ORDER BY ORDINAL_POSITION;
+                    '''
+            cursor.execute(query)
+            result = cursor.fetchall()
+            
+            self.column_names = []
+            for i in result:
+                self.column_names.append(i[0])
+            
+            
+            
+            
+    def rank_list_get(self,rank_table):
+        
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'SELECT * FROM {rank_table}'
+            cursor.execute(query)
+            result = cursor.fetchall()
+            for app in result:
+                ap = list(app)
+                self.rank_list.append(ap)
+            
+            
+    
+    def get_data(self):
+        rank_DF = pd.DataFrame(self.rank_list,columns=self.column_names)
+        
+        return rank_DF
+    
+    def column_get(self):
+        return self.column_names
+    
+
+class Rank_list_update:
+    def __init__(self,table_name,widget):
+        self.table_name = table_name
+        self.widget = widget
+        self.rank_list =[]
+        self.column_names_get()
+        self.update(self.table_name)
+        
+    def update(self,rank_table):
+        from pandastable import TableModel
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'SELECT * FROM {rank_table}'
+            cursor.execute(query)
+            result = cursor.fetchall()
+            for app in result:
+                ap = list(app)
+                self.rank_list.append(ap)
+            
+            rank_DF = pd.DataFrame(self.rank_list,columns=self.column_names)
+            rank_DF.fillna(0).infer_objects()
+            def format_with_commas(x):
+                if x in exclusion:
+                    pass
+                else:
+                    if isinstance(x, (int, float)):
+                        return ' ' + '{:,}'.format(x)
+                    return x
+            rank_DF = rank_DF.sort_values('総支給額見込', ascending=False)
+            exclusion = ["等級","サブランク","能力"]
+            for col in self.column_names:
+                rank_DF[col] = rank_DF[col].apply(format_with_commas) 
+            new_model = TableModel(rank_DF)
+            self.widget.updateModel(new_model)
+            self.widget.columnwidths["等級"] = 50
+            self.widget.redraw()
+            
+            for colname in self.column_names:
+                try:
+                    if colname in exclusion:
+                        pass
+                    else:
+                        self.widget.columnformats['alignment'][colname] = 'e'
+                except KeyError:
+                    print(f'Column {colname} does not exist.')
+            
+            
+            
+            
+     
+                
+    
+
+    def column_names_get(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'''
+                    SELECT COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = 'rank_list'
+                    ORDER BY ORDINAL_POSITION;
+                    '''
+            cursor.execute(query)
+            result = cursor.fetchall()
+            
+            self.column_names = []
+            for i in result:
+                self.column_names.append(i[0])
+    
+
+
+class Rank_Detail_update:
+    def __init__(self,main_rank,sub_rank,update_col,value):
+        self.main_rank = main_rank
+        self.sub_rank = sub_rank
+        self.update_col = update_col
+        self.value = value
+        
+    def rank_value_update(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+        
+        
+        

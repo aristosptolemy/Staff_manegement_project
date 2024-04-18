@@ -2,12 +2,7 @@ import jaconv
 import pykakasi
 
 import datetime
-from datetime import date
-
 import tkinter as tk
-from tkinter import ttk
-
-from pprint import pprint
 import requests
 
 
@@ -112,7 +107,7 @@ class Kana_change(object):
     def __init__(self,widget1,widget2):
         self.widget1 = widget1#漢字
         self.widget2 = widget2#カタカナ
-        self.widget1.bind('<FocusOut>',self.kana_set)
+        self.kana_set()
     
     def kana_set(self,event=None):
         kks = pykakasi.kakasi()
