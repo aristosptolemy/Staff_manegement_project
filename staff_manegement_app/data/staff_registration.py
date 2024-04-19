@@ -1,9 +1,11 @@
+import tkinter as tk
+from tkinter import ttk
 
 from datetime import datetime
 
 import json
 
-
+from staff_manegement_app.data.SQL_center import MySQL_New_Registration
 
 
 
@@ -76,7 +78,7 @@ class Interim_arrangement(object):
                        "勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"].get(),"主な交通費": Means_data, 
                        "サブ交通費": Sub_means_data, "備考欄": self.data["備考"].get(), "給与備考": self.data["給与備考"].get(), "在籍状況": "在籍中"}
         
-        from staff_manegement_app.data.SQL_center import MySQL_New_Registration
+        
         MySQL_New_Registration(Datail_list)
         
 
