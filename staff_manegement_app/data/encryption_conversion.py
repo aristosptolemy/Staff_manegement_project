@@ -12,7 +12,7 @@ not_encode = ["id","就業場所"]
 
 
 
-class Decrypt_Data_Conversion(object):
+class Decrypt_Data_Conversion:
     def __init__(self,data):
         self.data = data
         self.decrypt_data(self.data,test_key)
@@ -22,7 +22,6 @@ class Decrypt_Data_Conversion(object):
         
         self.decrypted_dict = {}
         for d_key,d_value in encrypted_list.items():
-
             
             if d_key in not_encode:
                 
@@ -50,12 +49,6 @@ class Decrypt_Data_Conversion(object):
                 
                 self.decrypted_dict[d_key] = plaintext.decode('utf-8')
             
-            
-        print(self.decrypted_dict)
-        
-        
-        
-        
         return self.decrypted_dict
     
     def get_data(self):
@@ -68,7 +61,7 @@ class Decrypt_Data_Conversion(object):
 
 
 
-class Encryption_Data_Conversion(object):
+class Encryption_Data_Conversion:
     def __init__(self,data):
         self.data = data
         #self.encrypt_elements_individually(self.data,test_key)
@@ -92,6 +85,7 @@ class Encryption_Data_Conversion(object):
     
     def encrypt_elements_individually(self,data_list, key):
         new_encrypt_dict = {}
+        #print(data_list)
         
         for d_key,d_value in data_list.items():
             if d_key in not_encode:

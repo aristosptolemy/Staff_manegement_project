@@ -27,13 +27,6 @@ class Staff_Details_Display(object):
         self.details_window = tk.Toplevel()
         self.details_window.title("詳細")
         self.details_window.geometry("1000x700")
-        
-
-        
-
-        # スタイル設定
-        
-
         # スクロール機能を持つフレームの設定
         self.staff_details_frame = self.setup_scrollable_frame(self.details_window)
         
@@ -73,7 +66,7 @@ class Staff_Details_Display(object):
         return staff_details_frame
     
     def details_display(self,frame):
-        
+        from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
         row_max = 50
         style_list = {
             "L":"LabelStyle.TLabel",
@@ -85,7 +78,7 @@ class Staff_Details_Display(object):
             "TV":"Treeview.Heading",
             "F":('HGP教科書体', 16),
         }
-        from ..GUI_Logic.Logic_etc import Allowance_change , Work_place_rank_change
+        
         def row_set():
             self.name_row = 5
             self.kana_name_row = 3

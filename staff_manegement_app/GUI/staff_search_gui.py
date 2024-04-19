@@ -1,16 +1,9 @@
-import tkinter as tk
 from tkinter import ttk
-import pykakasi
-from staff_manegement_app.data.SQL_center import MySQL_Staff_Search
-from staff_manegement_app.GUI.load_config import load_GUI_file
-from staff_manegement_app.GUI.load_config import load_List_file
-
-GUI_lists = load_GUI_file()
-select_lists = load_List_file()
 
 class Staff_Search_Tab:
     def __init__(self, notebook):
         self.notebook = notebook
+        
         self.setup_tab()
 
     def setup_tab(self):
@@ -39,6 +32,9 @@ class Staff_Search_Tab:
             "TV":"Treeview.Heading",
             "F":('HGP教科書体', 16),
         }
+        from staff_manegement_app.GUI.load_config import load_GUI_file,load_List_file
+        GUI_lists = load_GUI_file()
+        select_lists = load_List_file()
         
         def sepa():
             row_max = 13
@@ -141,6 +137,15 @@ class Staff_Search_Tab:
         
         
         def Search_start():
+            search_list = [self.roll_status.get(),self.gender_status.get(),self.fname_search.get(),
+                           self.fkana_search.get(),self.lname_search.get(),self.lkana_search.get(),
+                           self.work_place_status.get(),self.emp_type_status.get()]
+            search_number = 0
+            for i in search_list:
+                if i != "":
+                    search_number += 1
+                    
+            
             data = {
                 "在籍状況": self.roll_status.get(),
                 "スタッフ詳細": {"性別": self.gender_status.get()},
@@ -155,8 +160,8 @@ class Staff_Search_Tab:
                 "就業場所": self.work_place_status.get(),
                 "雇用形態": self.emp_type_status.get()
             }
-            
-            MySQL_Staff_Search(data,self.result_box)
+            from staff_manegement_app.data.SQL_center import MySQL_Staff_Search
+            MySQL_Staff_Search(data,self.result_box,search_number)
             
             
         def search_result_list():

@@ -1,88 +1,77 @@
-import pandas as pd
-from pandastable import Table, TableModel
 
-
-
-import tkinter as tk
 from tkinter import ttk
 
-def rank_list_tab(notebook):
-    rank_tab = ttk.Frame(notebook)
-    notebook.add(rank_tab, text='等級一覧')
-    #return
+class rank_list_map():
+    def __init__(self, notebook):
+        self.notebook = notebook
+        
+        self.setup_tab()
 
-    def open_text_editor(event):
-        # 現在選択されているセルの行と列を取得
-        col = self.rank_pt.getSelectedColumn()
-        row = self.rank_pt.getSelectedRow()
-        self.selected_rank_data = self.rank_pt.model.df.iloc[row]
-        self.selected_column_name = self.rank_pt.model.df.columns[col]
-        if col is not None and row is not None:
-            value = self.rank_pt.model.getValueAt(row, col)
+    def setup_tab(self):
+        
+        # スタイル設定
+        style = ttk.Style()
+        style.configure("EntryStyle.TEntry", font=("Arial", 18))
 
-            try:
-                value = value.replace(',', '').strip()
-                value = int(value) if value else 0
-            except Exception as e:
-                print(f"Error occurred: {e}")
-            #print(value)
+        # タブの作成
+        tab3 = ttk.Frame(self.notebook)
+        self.notebook.add(tab3, text='等級一覧表')
+        
+        self.rank_list_detail(tab3)
+        
 
+    
+    
+        
+    def rank_list_detail(self, rank_list_frame):
+        from ..GUI_Logic.Logic_etc import Toggle_Button_rank
+        from ..GUI_Logic.text_box_RE import Rank_open_text
+        from pandastable import Table
+        from staff_manegement_app.data.SQL_center import Rank_list_all
+        
+        button_frame = ttk.Frame(rank_list_frame)
+        button_frame.pack()
+        table_frame = ttk.Frame(rank_list_frame)
+        table_frame.pack(fill='both', expand=True)
+        
+        self.rank_data = Rank_list_all()
+        rank_data = self.rank_data.get_data()
+        column_names = self.rank_data.column_get()
+        
+        def format_with_commas(x):
+            if x in exclusion:
+                pass
+            else:
+                if isinstance(x, (int, float)):
+                    return ' ' + '{:,}'.format(x)
+                return x
+        rank_data = rank_data.sort_values('総支給額見込', ascending=False)
+        exclusion = ["等級","サブランク","能力"]
+        for col in column_names:
+            rank_data[col] = rank_data[col].apply(format_with_commas)
+        
+        rank_data.fillna(0).infer_objects()
             
-            # 新しいウィンドウを作成
-            self.top = tk.Toplevel()
-            self.top.title("詳細")
-            self.rank_text = tk.Text(self.top, wrap="word")
-            self.rank_text.insert('end', value)
-            self.rank_text.pack(expand=True, fill='both')
-            button = ttk.Button(self.top,text="更新",command=self.rank_list_update)
-            button.pack()
-
-
-
-
-    with sqlite3.connect('staff.db') as conn:
-        c = conn.cursor()
-        rank_list_df = pd.read_sql('SELECT * FROM rank_list', conn)
-
-
-        int_df = rank_list_df[(rank_list_df['サブランク'] != '総務担当\n') & (rank_list_df['サブランク'] != 'As')]
-
-        as_df = rank_list_df[rank_list_df['サブランク'] == 'As']
-
-
-
-        office_work_df = rank_list_df[rank_list_df['サブランク'] == '総務担当\n']
-        office_work_df = office_work_df.sort_values(by=['等級'],ascending=[False])
-
-
-        int_df = int_df.sort_values(by=['等級', 'サブランク'],ascending=[False, True])
-
-        #str_df = str_df.sort_values(by=['サブランク'],ascending=[False])
-
+        rank_table = Table(table_frame,dataframe=rank_data)
         
-        result = pd.concat([int_df,as_df,office_work_df])
-
-        #print(result)
-
+        Toggle_Button_rank(button_frame,rank_table)
         
-
-
-        for col in new_format:
-            result[col] = result[col].apply(self.format_with_commas)
+        rank_table.show()
         
-        # PandasTableの作成と配置
-        frame = tk.Frame(rank_tab)
-        frame.pack(fill='both', expand=True)
-
-        self.rank_pt = Table(frame, dataframe=result)
-
-        self.rank_pt.show()
-        self.rank_pt.bind("<Double-1>", open_text_editor)
-
-        column_names = ['等級','サブランク','総支給額見込','基本給','役割実行手当','特別精勤手当','皆勤手当','支給額小計','時給','残業単価','残業時間','残業代見込']
-
+        
+        Rank_open_text(rank_table)
+        
         for colname in column_names:
             try:
-                self.rank_pt.columnformats['alignment'][colname] = 'e'
+                if colname in exclusion:
+                    pass
+                else:
+                    rank_table.columnformats['alignment'][colname] = 'e'
             except KeyError:
                 print(f'Column {colname} does not exist.')
+        
+        rank_table.columnwidths["等級"] = 50
+
+   
+
+        
