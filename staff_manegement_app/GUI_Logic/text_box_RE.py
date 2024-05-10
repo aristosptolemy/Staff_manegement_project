@@ -30,6 +30,7 @@ class Open_text_box(object):
 class Rank_open_text(object):
     def __init__(self,widget):
         self.widget = widget
+        #self.open_text_editor()
         self.widget.bind("<Double-1>", self.open_text_editor)
         
     def open_text_editor(self,event=None):

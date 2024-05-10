@@ -3,7 +3,7 @@ import pykakasi
 
 import datetime
 import tkinter as tk
-import requests
+
 
 
 class FormatConvert(object):
@@ -64,7 +64,7 @@ class FormatConvert_tell(object):
                 return
 
 class FormatConvert_Post(object):
-    def __init__(self, widget,post_num,len_num,widget_2,widget_3):
+    def __init__(self, widget, post_num, len_num, widget_2, widget_3):
         self.widget = widget
         self.address = widget_2
         self.kana = widget_3
@@ -73,32 +73,44 @@ class FormatConvert_Post(object):
         self.convert()
         self.post_request()
         
-    
-    def convert(self,event=None):
+    def convert(self):
         data = self.post_num
-
         number_of_digits = len(data)
         if number_of_digits == self.len_num:
             post_number = f"{data[:3]}-{data[3:]}"
-            self.widget.delete(0,tk.END)
-            self.widget.insert(tk.END,post_number)
+            self.widget.delete(0, tk.END)
+            self.widget.insert(tk.END, post_number)
             return post_number
-        else:
-            return
 
     def post_request(self):
+        from jusho import Jusho, Address
+        postman = Jusho()
+        address_list = postman.by_zip_code(self.post_num)
+
+        # APIからのレスポンスがリスト形式で返される場合、リストの最初の要素を使用する
+        if address_list and isinstance(address_list, list):
+            first_address = address_list[0]
+
+            # Addressオブジェクトから情報を抽出
+            if isinstance(first_address, Address):
+                address_kanji = f'{first_address.city.kanji}{first_address.kanji}'
+                address_kana = f'{first_address.city.kana}{first_address.kana}'
+                self.address.insert(tk.END,address_kanji)
+                self.kana.insert(tk.END,address_kana)
+                return 
+            
+            elif isinstance(first_address, dict):
+                # 辞書型の場合の処理
+                address_kanji = f"{first_address['city']['kanji']}{first_address['kanji']}"
+                self.address.insert(tk.END,address_kanji)
+                #self.kana.insert(tk.END,address_kana)
+                return 
+                
+            else:
+                print("Error: Address format not recognized.")
+        else:
+            print("No address information found.")
         
-        post_code = self.post_num
-        URL = 'https://zipcloud.ibsnet.co.jp/api/search'
-        res = requests.get(URL, params={'zipcode': post_code})
-        data = res.json()
-        
-        insert_post = f"{data["results"][0]["address2"]}{data["results"][0]["address3"]}"
-        kana_data = f"{data["results"][0]["kana2"]}{data["results"][0]["kana3"]}"
-        if self.address.get() == "":
-            self.address.insert(tk.END,insert_post)
-            ad_kana = jaconv.h2z(kana_data)
-            self.kana.insert(tk.END,ad_kana)
         
         
     
@@ -126,4 +138,5 @@ class Kana_change(object):
         if self.widget2.get() == "":
             self.widget2.insert(tk.END,ins_kana)
 
-        
+
+

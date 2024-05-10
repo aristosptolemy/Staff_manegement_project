@@ -18,9 +18,11 @@ class Apps(ttk.Frame):
         self.setup_new_staff_tab()  # StaffDetailTab の設定を行うメソッドを呼び出す
         self.set_up_staff_serch_tab()
         self.setup_rank_list_tab()
+        self.setup_setting_tab()
         self.main_widgets()
 
     def get_rank_number_list(self):
+        
         self.rank_list_store = Rank_List_Manager()
         return self.rank_list_store.rank_number_list_store_get()
 
@@ -33,6 +35,11 @@ class Apps(ttk.Frame):
     
     def set_up_staff_serch_tab(self):
         self.staff_search_tab = Staff_Search_Tab(self.notebook)
+    
+    def setup_setting_tab(self):
+        from .setting import Working_conditions_notice
+        self.setting_tab = Working_conditions_notice(self.notebook)
+    
     
     def main_widgets(self):
         style = ttk.Style()
@@ -55,5 +62,6 @@ class Apps(ttk.Frame):
         
         self.rank_manager = Rank_List_Manager()
         self.rank_number_list = self.rank_manager.rank_number_list_store_get()
+        
         
         

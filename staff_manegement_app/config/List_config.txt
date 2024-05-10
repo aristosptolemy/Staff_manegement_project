@@ -22,6 +22,11 @@ presence_or_absence:有,無
 #在籍状況
 Enrollment:在籍中,退職済
 
+#休憩時間
+break_time:1時間,30分,無
+
+
+
 
 #検索結果リストカラム
 search_result_columnname:就業場所,氏,名,雇用形態,在籍状況

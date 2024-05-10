@@ -1,6 +1,6 @@
 
 config_path = 'staff_manegement_app/config/'
-path = [f'{config_path}GUI_config.txt',f'{config_path}List_config.txt']
+path = [f'{config_path}GUI_config.txt',f'{config_path}List_config.txt',f'{config_path}Working_print_config.txt']
 
 
 def load_GUI_file():
@@ -40,3 +40,24 @@ def load_List_file():
 
     #print(f'load_config.txt output test list {select_lists}')#テスト出力
     return select_lists
+
+
+def Load_Working_config():
+    select_cell = {}
+    with open(path[2], 'r', encoding='utf-8') as file:
+        for line in file:
+            # コメント行または空行を無視する
+            if line.strip().startswith('#') or not line.strip():
+                continue
+            
+            # データ行が正しい形式であることを確認
+            parts = line.strip().split(':', 1)  # ここで最大分割数を1に設定
+
+            if len(parts) != 2:
+                print(f"不正な形式の行が見つかりました: {line}")
+                continue  # 形式が正しくない行は無視する
+
+            list_name, list_elements = parts
+            select_cell[list_name] = list_elements.split(',')
+
+    return select_cell

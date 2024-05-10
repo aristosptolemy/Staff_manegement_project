@@ -459,7 +459,8 @@ class StaffDetailTab:
             
             self.Work_place_combobox = ttk.Combobox(frame,width=10,values=select_lists['work_place'],font=style_list["E"],state=style_list["S"])
             self.Work_place_combobox.grid(row=34,column=3)
-            
+            self.Work_place_combobox.bind('<<ComboboxSelected>>',change_Work_place)
+                 
                  
         def Employment_status():#雇用形態
             
@@ -470,6 +471,7 @@ class StaffDetailTab:
             self.emp_entry.grid(row=36,column=3)
             self.emp_entry.set(select_lists['emp_type'][0])
             self.emp_entry.bind('<<ComboboxSelected>>',change_Allowance)
+            change_Allowance()
 
             
         def Job_description():#仕事内容
@@ -486,7 +488,7 @@ class StaffDetailTab:
 
             self.rank_combobox = ttk.Combobox(frame,width=10,values=self.rank_list,font=style_list["E"],state=style_list["S"])
             self.rank_combobox.grid(row=40,column=3)
-            self.rank_combobox.bind('<<ComboboxSelected>>',change_Work_place)
+            
             
             
         
@@ -549,7 +551,7 @@ class StaffDetailTab:
             label = ttk.Label(frame,text=GUI_lists["working_break_time"], style=style_list["L"])
             label.grid(row=40,column=6)
             
-            self.work_break_entry = ttk.Entry(frame,width=10,font=style_list["E"])
+            self.work_break_entry = ttk.Combobox(frame,width=9,values=select_lists['break_time'],font=style_list["E"])
             self.work_break_entry.grid(row=40,column=7)
         
         
@@ -724,6 +726,12 @@ class StaffDetailTab:
                 print("登録")
                 from staff_manegement_app.data.staff_registration import Interim_arrangement
                 Interim_arrangement(data)
+                for key,value in data.items():
+                    try:
+                        #print(f'{key}:{value}')
+                        value.delete(0,tk.END)
+                    except:
+                        pass
             
             
         
@@ -735,11 +743,11 @@ class StaffDetailTab:
             from ..GUI_Logic.text_box_RE import Open_text_box
             Open_text_box(widget)
         
-        def change_Allowance():
+        def change_Allowance(event=None):
             from ..GUI_Logic.Logic_etc import Allowance_change
             Allowance_change(self.emp_entry,self.amount_label)
             
-        def change_Work_place():
+        def change_Work_place(event=None):
             from ..GUI_Logic.Logic_etc import Work_place_rank_change
             Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
         
@@ -758,6 +766,7 @@ class StaffDetailTab:
         post_number_area()#郵便番号入力
         dependent_area()#扶養入力
         dependent_people_area()#扶養の人数入力
+        Employment_status()
         Means_of_commuting()#通勤手段
         Means_amount()#通勤手当
         
@@ -781,7 +790,7 @@ class StaffDetailTab:
         Under_2_work()#勤務先   
         
         Work_place()  
-        Employment_status()
+        
         Job_description()
         Rank_status()
         Salary_notes()

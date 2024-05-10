@@ -92,16 +92,53 @@ class MySQL_New_Registration(object):
             
             cursor.execute(f'''
                         INSERT INTO {My_SQL_table_Name} (氏,名,スタッフ詳細,社会保険,雇用保険,扶養,身元引受人１,身元引受人２,入社日,
-                        更新,期間の定め,試用期間,雇用形態,就業場所,等級,勤務時間,残業,主な交通費,サブ交通費,備考欄,給与備考,在籍状況) 
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);''',
+                        更新,期間の定め,試用期間,雇用形態,就業場所,等級,仕事内容,勤務時間,休日,残業,主な交通費,サブ交通費,備考欄,給与備考,在籍状況) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);''',
                         (data["氏"],data["名"],data["スタッフ詳細"],data["社会保険"],data["雇用保険"],
                          data["扶養"],data["身元引受人1"],data["身元引受人2"],data["入社日"],
                          data["更新"],data["期間の定め"],data["試用期間"],data["雇用形態"],data["就業場所"],
-                         data["等級"],data["勤務時間"],data["残業"],data["主な交通費"],data["サブ交通費"],
-                         data["備考欄"],data["給与備考"],data["在籍状況"]))
+                         data["等級"],data["仕事内容"],data["勤務時間"],data['休日'],data["残業"],data["主な交通費"],
+                         data["サブ交通費"],data["備考欄"],data["給与備考"],data["在籍状況"]))
             
             conn.commit()
+
+
+class MySQL_Staff_Update:
+    def __init__(self,data,id_data):
+        self.data = data
+        self.id_data = id_data
+        from .encryption_conversion import Encryption_Data_Conversion
+        self.Encryption_Conversion_data = Encryption_Data_Conversion(self.data)
+        set_data = self.Encryption_Conversion_data.get_data()
+
+        self.MySQL_update(set_data)
+
+        
+    def MySQL_update(self,data):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            #print(data)
             
+            
+            
+            cursor.execute(f'''
+                        UPDATE {My_SQL_table_Name} 
+                        SET 氏 = %s ,名 = %s ,スタッフ詳細 = %s ,社会保険 = %s ,雇用保険 = %s ,扶養 = %s ,身元引受人１ = %s ,身元引受人２ = %s ,入社日 = %s ,
+                        更新 = %s ,期間の定め = %s ,試用期間 = %s ,雇用形態 = %s ,就業場所 = %s ,等級 = %s ,仕事内容 = %s ,勤務時間 = %s ,休日 = %s ,残業 = %s ,
+                        主な交通費 = %s ,サブ交通費 = %s ,備考欄 = %s ,給与備考 = %s ,在籍状況 = %s 
+                        WHERE id = %s;''',
+                        (data["氏"],data["名"],data["スタッフ詳細"],data["社会保険"],data["雇用保険"],
+                         data["扶養"],data["身元引受人1"],data["身元引受人2"],data["入社日"],
+                         data["更新"],data["期間の定め"],data["試用期間"],data["雇用形態"],data["就業場所"],
+                         data["等級"],data["仕事内容"],data["勤務時間"],data['休日'],data["残業"],data["主な交通費"],
+                         data["サブ交通費"],data["備考欄"],data["給与備考"],data["在籍状況"],self.id_data))
+            
+            conn.commit()
+
+
+
+
+
 
 
 class MySQL_Staff_Search(object):
@@ -213,13 +250,17 @@ class MySQL_Staff_Search(object):
                 else:
                     #print("追加無し")       
                     pass
+            
+            
             Search_Staff_List_INSERT(search_results_data,self.widget)
+    
             
 
             
 class MySQL_Select_Details(object):
-    def __init__(self,data):
+    def __init__(self,data,widget):
         self.data = data
+        self.widget = widget
         self.select_detail_search()
     
     def column_get(self):
@@ -228,7 +269,7 @@ class MySQL_Select_Details(object):
             query = f'''
                     SELECT COLUMN_NAME
                     FROM INFORMATION_SCHEMA.COLUMNS
-                    WHERE TABLE_NAME = 'staff_list_test'
+                    WHERE TABLE_NAME = '{My_SQL_table_Name}'
                     ORDER BY ORDINAL_POSITION;
                     '''
             cursor.execute(query)
@@ -266,10 +307,12 @@ class MySQL_Select_Details(object):
                 
                 dec_data = Decrypt_Data_Conversion(en_data)
                 list_data.append(dec_data.get_data())
-            print(list_data)
-            Staff_Details_Display(list_data[0])
+        
+        Staff_Details_Display(list_data[0],self.widget)
 
 
+
+        
         
         
 
@@ -408,7 +451,7 @@ class Rank_Detail_update:
         with mysql.connector.connect(**config) as conn:
             cursor = conn.cursor()
             table_name = ""
-            if self.sub_rank == "総務事務":
+            if self.sub_rank == "総務担当":
                 table_name = 'office_rank_list'
             else:
                 table_name = 'rank_list'
@@ -420,6 +463,135 @@ class Rank_Detail_update:
             conn.commit()
             Rank_list_update(table_name,self.widget)
             
+
+
+class Rank_details:
+    def __init__(self,rank):
+        self.details(rank)
+        
+
+    def details(self,rank):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            table_name = ""
+            if len(rank) == 1:
+                table_name = "office_rank_list"
+                sub_rank = "総務担当"
+                rank = rank
+            elif "As" in rank:
+                table_name = "rank_list"
+                rank = 1
+                sub_rank = "As"
+            else:
+                table_name = "rank_list"
+                rank = rank[:-1]
+                sub_rank = rank[-1]
+            
+            query = f'''SELECT * FROM {table_name} WHERE 等級 = %s AND サブランク = %s;'''
+            cursor.execute(query,(rank,sub_rank))
+            result = cursor.fetchall()
+            
+            self.rank_result = list(result[0])
+           
+            
+            return self.rank_result
+    
+    def result_get(self):
+        return self.rank_result
+
+
+
         
         
+class setting_update:
+    def __init__(self,name,setting_id):
+        self.name = name
+        self.setting_id = setting_id
+        self.update()
+    
+    def update(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'''
+            UPDATE setting_table SET setting_name = '{self.name}' WHERE id = {self.setting_id}'''
+            
+            cursor.execute(query)
+            conn.commit()
+            
+            
+            
+
+class setting_select:
+    def __init__(self,data):
+        self.data = data
+        self.select()
+    
+    def select(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            cursor.execute(f'''
+                           SELECT setting_name FROM setting_table
+                           WHERE id = {self.data};
+                           ''')
+            
+            self.result = cursor.fetchall()
+    
+    def get_data(self):
+        return self.result   
+            
+
+
+
+
+
+class Staff_printing_detail:
+    def __init__(self,staff_id):
+        self.Staff_detail_extraction(staff_id)
+    
+    def column_get(self):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+            query = f'''
+                    SELECT COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = '{My_SQL_table_Name}'
+                    ORDER BY ORDINAL_POSITION;
+                    '''
+            cursor.execute(query)
+            result = cursor.fetchall()
+            
+            self.column_names = []
+            for i in result:
+                self.column_names.append(i[0])
         
+    def Staff_detail_extraction(self,staff_id):
+        with mysql.connector.connect(**config) as conn:
+            cursor = conn.cursor()
+
+            query = f'''SELECT * FROM {My_SQL_table_Name} WHERE id = %s'''
+            
+            cursor.execute(query,(staff_id,))
+            result = cursor.fetchall()
+            from staff_manegement_app.data.encryption_conversion import Decrypt_Data_Conversion
+            encrypted_data = []
+            for i in result:
+                ap = list(i)
+                encrypted_data.append(ap)
+            self.column_get()
+            self.list_data = []
+            count = 0
+            for li in encrypted_data:
+                count = 0
+                en_data = {}
+                for i in li:
+                    ap_key = self.column_names[count]
+                    en_data[ap_key] = i
+                    count += 1
+                
+                dec_data = Decrypt_Data_Conversion(en_data)
+                self.list_data.append(dec_data.get_data())
+        
+        return self.list_data
+    
+    def get_data(self):
+        return self.list_data[0]

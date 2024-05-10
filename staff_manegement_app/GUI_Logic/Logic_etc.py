@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-class Allowance_change(object):#通勤手当自動判定
+class Allowance_change:#通勤手当自動判定
     def __init__(self, widget,variable):
         self.widget = widget
         self.variable = variable
@@ -17,7 +17,7 @@ class Allowance_change(object):#通勤手当自動判定
             self.variable.set("手当(月):")
 
 
-class Work_place_rank_change(object):
+class Work_place_rank_change:
     def __init__(self, widget,variable,widget_c):
         self.widget = widget
         self.widgetc = widget_c
