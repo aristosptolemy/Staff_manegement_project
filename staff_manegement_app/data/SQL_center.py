@@ -12,16 +12,6 @@ config = {
     'database': 'yoshi_schema',
 }
 
-"""
-
-config = {
-    'host':'localhost',
-    'user':'test_user',
-    'port': '3306',
-    'password':'password',
-    'database':'test_schema'
-}
-"""
 
 
 My_SQL_table_Name = "staff_list_test"
@@ -76,7 +66,7 @@ class Rank_List_Manager():
 class MySQL_New_Registration(object):
     def __init__(self,data):
         self.data = data
-        from .encryption_conversion import Encryption_Data_Conversion
+        from data.encryption_conversion import Encryption_Data_Conversion
         self.Encryption_Conversion_data = Encryption_Data_Conversion(self.data)
         set_data = self.Encryption_Conversion_data.get_data()
 
@@ -107,7 +97,7 @@ class MySQL_Staff_Update:
     def __init__(self,data,id_data):
         self.data = data
         self.id_data = id_data
-        from .encryption_conversion import Encryption_Data_Conversion
+        from data.encryption_conversion import Encryption_Data_Conversion
         self.Encryption_Conversion_data = Encryption_Data_Conversion(self.data)
         set_data = self.Encryption_Conversion_data.get_data()
 
@@ -191,8 +181,8 @@ class MySQL_Staff_Search(object):
             for i in results:
                 result_data.append(list(i))
             
-            from ..GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
-            from staff_manegement_app.data.encryption_conversion import Decrypt_Data_Conversion
+            from GUI_Logic.staff_search_logic import Search_Staff_List_INSERT
+            from data.encryption_conversion import Decrypt_Data_Conversion
             
             list_data = []
             count = 0
@@ -288,8 +278,8 @@ class MySQL_Select_Details(object):
             
             cursor.execute(query,params)
             result = cursor.fetchall()
-            from staff_manegement_app.data.encryption_conversion import Decrypt_Data_Conversion
-            from staff_manegement_app.GUI.staff_details_GUI import Staff_Details_Display
+            from data.encryption_conversion import Decrypt_Data_Conversion
+            from GUI.staff_details_GUI import Staff_Details_Display
             encrypted_data = []
             for i in result:
                 ap = list(i)
@@ -572,7 +562,7 @@ class Staff_printing_detail:
             
             cursor.execute(query,(staff_id,))
             result = cursor.fetchall()
-            from staff_manegement_app.data.encryption_conversion import Decrypt_Data_Conversion
+            from data.encryption_conversion import Decrypt_Data_Conversion
             encrypted_data = []
             for i in result:
                 ap = list(i)

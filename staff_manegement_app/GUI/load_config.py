@@ -1,5 +1,5 @@
 
-config_path = 'staff_manegement_app/config/'
+config_path = 'config/'
 path = [f'{config_path}GUI_config.txt',f'{config_path}List_config.txt',f'{config_path}Working_print_config.txt']
 
 

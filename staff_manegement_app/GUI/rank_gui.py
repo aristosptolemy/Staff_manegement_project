@@ -24,10 +24,10 @@ class rank_list_map():
     
         
     def rank_list_detail(self, rank_list_frame):
-        from ..GUI_Logic.Logic_etc import Toggle_Button_rank
-        from ..GUI_Logic.text_box_RE import Rank_open_text
+        from GUI_Logic.Logic_etc import Toggle_Button_rank
+        from GUI_Logic.text_box_RE import Rank_open_text
         from pandastable import Table
-        from staff_manegement_app.data.SQL_center import Rank_list_all
+        from data.SQL_center import Rank_list_all
         
         button_frame = ttk.Frame(rank_list_frame)
         button_frame.pack()

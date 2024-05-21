@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from .new_staff_gui import StaffDetailTab
-from .staff_search_gui import Staff_Search_Tab
-from .rank_gui import rank_list_map
-from staff_manegement_app.data.SQL_center import Rank_List_Manager
+from GUI.new_staff_gui import StaffDetailTab
+from GUI.staff_search_gui import Staff_Search_Tab
+from GUI.rank_gui import rank_list_map
+from data.SQL_center import Rank_List_Manager
 
 class Apps(ttk.Frame):
     def __init__(self, master=None):
@@ -37,7 +37,7 @@ class Apps(ttk.Frame):
         self.staff_search_tab = Staff_Search_Tab(self.notebook)
     
     def setup_setting_tab(self):
-        from .setting import Working_conditions_notice
+        from GUI.setting import Working_conditions_notice
         self.setting_tab = Working_conditions_notice(self.notebook)
     
     

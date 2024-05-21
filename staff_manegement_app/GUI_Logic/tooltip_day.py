@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import tkinter.ttk as ttk
-from ..GUI_Logic.format_change import FormatConvert,FormatConvert_tell,FormatConvert_Post
+from GUI_Logic.format_change import FormatConvert,FormatConvert_tell,FormatConvert_Post
 
 
 

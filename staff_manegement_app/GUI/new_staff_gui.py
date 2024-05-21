@@ -1,19 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
-from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
+from GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
 
 
 
 
 class StaffDetailTab:
     def __init__(self, notebook, amount_label, rank_list):
+        
         self.notebook = notebook
         self.amount_label = amount_label
         self.rank_list = rank_list
         self.setup_tab()
 
     def setup_tab(self):
-        
+
 
         # スタイル設定
         style = ttk.Style()
@@ -32,6 +33,7 @@ class StaffDetailTab:
         #self.setup_staff_detail_widgets(self.staff_input_frame)
         
     def setup_scrollable_frame(self, tab1):
+        
         # スクロールバーの設定
         tab1_scrollbar = ttk.Scrollbar(tab1, orient='vertical')
         tab1_scrollbar.pack(side='right', fill='y')
@@ -78,7 +80,7 @@ class StaffDetailTab:
         }
         c_span_max = 13
         row_max = 50
-        from staff_manegement_app.GUI.load_config import load_GUI_file,load_List_file
+        from GUI.load_config import load_GUI_file,load_List_file
         GUI_lists = load_GUI_file()
         select_lists = load_List_file()
 
@@ -736,19 +738,19 @@ class StaffDetailTab:
             
         
         def Kana_f_change(widget,widget2):
-            from ..GUI_Logic.format_change import Kana_change
+            from GUI_Logic.format_change import Kana_change
             Kana_change(widget,widget2)
             
         def TEXT_BOX(widget):
-            from ..GUI_Logic.text_box_RE import Open_text_box
+            from GUI_Logic.text_box_RE import Open_text_box
             Open_text_box(widget)
         
         def change_Allowance(event=None):
-            from ..GUI_Logic.Logic_etc import Allowance_change
+            from GUI_Logic.Logic_etc import Allowance_change
             Allowance_change(self.emp_entry,self.amount_label)
             
         def change_Work_place(event=None):
-            from ..GUI_Logic.Logic_etc import Work_place_rank_change
+            from GUI_Logic.Logic_etc import Work_place_rank_change
             Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
         
         

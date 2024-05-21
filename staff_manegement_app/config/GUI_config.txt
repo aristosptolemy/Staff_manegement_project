@@ -37,6 +37,7 @@ period = 試用期間:
 Registration = 登録
 Update = 更新
 Print = 印刷
+PDF = PDF保存
 Contract_renewal = 更新:
 Renewal_day = 更新日:
 Enrollment = 在籍状況:

@@ -1,13 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-import win32com.client as win32
 import win32print
 
-printers = win32print.EnumPrinters(2)
-printer_list = [printer[2] for printer in printers]
-
-
 class Working_conditions_notice:
+    
     def __init__(self,notebook):
         self.notebook = notebook
         self.setup_tab ()
@@ -27,6 +23,11 @@ class Working_conditions_notice:
 
     def staff_search_tab(self, main):
         frame = ttk.Frame(main)
+        
+
+        printers = win32print.EnumPrinters(2)
+        printer_list = [printer[2] for printer in printers]
+
         frame.pack()
         style_list = {
             "L":"LabelStyle.TLabel",
@@ -43,7 +44,7 @@ class Working_conditions_notice:
             setting_update()
         
         def printer_set():
-            from staff_manegement_app.data.SQL_center import setting_select
+            from data.SQL_center import setting_select
             printer_select = setting_select(1)
             printer_name = printer_select.get_data()
             printer_frame = ttk.Frame(frame)
@@ -61,9 +62,12 @@ class Working_conditions_notice:
             Button.pack()
         
         def printer_get(event=None):
-            from staff_manegement_app.data.SQL_center import setting_update
+            from data.SQL_center import setting_update
             setting_update(self.printer_set_C.get(),1)
-            
+        
+        def get(self):
+            return self.printer_set_C.get()
             
         
         set_all()
+        

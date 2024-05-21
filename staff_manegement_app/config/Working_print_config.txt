@@ -96,8 +96,6 @@ Salary:L33
 #通勤手段
 Means_of_commuting:V33
 
-
-
 #計算方法
 Method_of_calculation:V33,AD33
 
@@ -107,3 +105,5 @@ allowance:M34,M35
 #皆勤手当て
 perfect:W34
 
+#印刷範囲
+area:B1:AH45

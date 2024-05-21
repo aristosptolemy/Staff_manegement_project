@@ -22,7 +22,7 @@ class Work_place_rank_change:
         self.widget = widget
         self.widgetc = widget_c
         self.variable = variable
-        from staff_manegement_app.data.SQL_center import Rank_List_Manager
+        from data.SQL_center import Rank_List_Manager
         self.rank_manager = Rank_List_Manager()
         self.change()
         self.widget.bind('<<ComboboxSelected>>',self.change)
@@ -66,7 +66,7 @@ class Toggle_Button_rank:
     
     
     def toggle(self,widget,widget2):
-        from staff_manegement_app.data.SQL_center import Rank_list_update
+        from data.SQL_center import Rank_list_update
         
         self.store_on = not self.store_on
         self.office_on = not self.office_on

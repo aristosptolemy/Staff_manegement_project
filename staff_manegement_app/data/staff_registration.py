@@ -76,7 +76,7 @@ class Interim_arrangement(object):
                        "仕事内容":self.data["仕事内容"].get(),"勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"].get(),"主な交通費": Means_data, 
                        "サブ交通費": Sub_means_data, "備考欄": self.data["備考"].get(), "給与備考": self.data["給与備考"].get(), "在籍状況": "在籍中"}
         
-        from staff_manegement_app.data.SQL_center import MySQL_New_Registration
+        from data.SQL_center import MySQL_New_Registration
         MySQL_New_Registration(Datail_list)
         
 
@@ -157,7 +157,7 @@ class Interim_update:
                        "仕事内容":self.data["仕事内容"].get(),"勤務時間": Job_time_data,"残業": Over_time_data,"休日": self.data["休日"].get(),"主な交通費": Means_data, 
                        "サブ交通費": Sub_means_data, "備考欄": self.data["備考"].get(), "給与備考": self.data["給与備考"].get(), "在籍状況": "在籍中"}
         
-        from staff_manegement_app.data.SQL_center import MySQL_Staff_Update
+        from data.SQL_center import MySQL_Staff_Update
         MySQL_Staff_Update(Datail_list,self.id_data)
         
 

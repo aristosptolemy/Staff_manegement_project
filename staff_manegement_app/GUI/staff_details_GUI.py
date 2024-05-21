@@ -1,8 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-import json
 from datetime import datetime
-from ..GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
+from GUI_Logic.tooltip_day import ToolTip , ToolTip_time,ToolTip_error,ToolTip_error_Post
 
 
 
@@ -68,7 +67,8 @@ class Staff_Details_Display:
             "TV":"Treeview.Heading",
             "F":('HGP教科書体', 16),
         }
-        from staff_manegement_app.GUI.load_config import load_GUI_file,load_List_file
+        import json
+        from GUI.load_config import load_GUI_file,load_List_file
         GUI_lists = load_GUI_file()
         select_lists = load_List_file()
         
@@ -146,8 +146,7 @@ class Staff_Details_Display:
             Period(50)
             sub_means(54)
             Bottom_button(60)
-            """
-            """
+
             
 
             
@@ -659,7 +658,7 @@ class Staff_Details_Display:
         
         
         def Rank_status(row_set):#等級
-            from staff_manegement_app.data.SQL_center import Rank_List_Manager
+            from data.SQL_center import Rank_List_Manager
             rank_list_d = Rank_List_Manager()
             if self.Work_place_combobox.get() == "広島本部":
                 self.rank_list = rank_list_d.rank_number_list_office_get()
@@ -939,8 +938,10 @@ class Staff_Details_Display:
             bottom_button.grid(row=row_set,column=0,columnspan=13,pady=10)
             Registr_button = ttk.Button(bottom_button,text=GUI_lists["Update"], style=style_list["B"],command=Datail_summarize)
             Registr_button.pack(side=tk.LEFT)
-            P_button = ttk.Button(bottom_button,text=GUI_lists["Print"], style=style_list["B"],command=Detail_print)
+            P_button = ttk.Button(bottom_button,text=GUI_lists["Print"], style=style_list["B"],command=lambda: Detail_print("Print"))
             P_button.pack(side=tk.LEFT)
+            PDF_button = ttk.Button(bottom_button,text=GUI_lists["PDF"], style=style_list["B"],command=lambda: Detail_print("PDF"))
+            PDF_button.pack(side=tk.LEFT)
         
         
             
@@ -1012,34 +1013,34 @@ class Staff_Details_Display:
 
             else:
                 #print("更新")
-                from staff_manegement_app.data.staff_registration import Interim_update
+                from data.staff_registration import Interim_update
                 Interim_update(data,self.data['id'])
             
             
-        def Detail_print():
+        def Detail_print(set):
             Datail_summarize()
             data = widget_summarize()
-            from staff_manegement_app.data.Printing import Notice_Printing
-            Notice_Printing(data)
-            print('印刷')    
+            from data.Printing import Notice_Printing
+            Notice_Printing(data,set)
+            #print('印刷')    
             
             
             
             
         def Kana_f_change(widget,widget2):
-            from ..GUI_Logic.format_change import Kana_change
+            from GUI_Logic.format_change import Kana_change
             Kana_change(widget,widget2)
             
         def TEXT_BOX(widget):
-            from ..GUI_Logic.text_box_RE import Open_text_box
+            from GUI_Logic.text_box_RE import Open_text_box
             Open_text_box(widget)
         
         def change_Allowance():
-            from ..GUI_Logic.Logic_etc import Allowance_change
+            from GUI_Logic.Logic_etc import Allowance_change
             Allowance_change(self.emp_entry,self.amount_label)
             
         def change_Work_place(event=None):
-            from ..GUI_Logic.Logic_etc import Work_place_rank_change
+            from GUI_Logic.Logic_etc import Work_place_rank_change
             Work_place_rank_change(self.Work_place_combobox,self.rank_list,self.rank_combobox)
         
         

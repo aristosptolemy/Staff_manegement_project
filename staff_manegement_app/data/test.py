@@ -1,23 +1,31 @@
-from datetime import datetime, timedelta
 
-# 時間を設定
-time1 = datetime.strptime('08:30:00', '%H:%M:%S')
-time2 = datetime.strptime('17:30:00', '%H:%M:%S')
 
-# 時間の差分を計算
-time_difference = time2 - time1
+import win32print
+import win32com.client
+printer_name = 'EPSON EW-M5071FT Series'
 
-# 結果を表示
-print(time_difference)
-hours, minutes, seconds = str(time_difference).split(":")
 
-# 時間が8時間以上なら8時間を返す
-if int(hours) >= 8:
-    return_time = timedelta(hours=8)  # 8時間のtimedeltaオブジェクトを作成
-else:
-    return_time = time_difference  # 差分が8時間未満ならそのまま使用
+# プリンター名とポート名を取得しフォーマット
+printers = win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)
+target_printer = None
+port_name = "Ne01:"  # 仮のポート名を設定
+for p in printers:
+    if printer_name in p[2]:
+        # 可能であればポート名を取得し、空白を削除
+        if p[1]:
+            port_name = p[1].split(',')[0].strip()
+        # プリンター名のフォーマット
+        target_printer = f"{p[2]} on {port_name}:"
+        break
 
-# 返す時間を "HH:MM:SS" 形式で出力
-return_time_str = str(return_time)
-print(return_time_str)
+if target_printer is None:
+    raise Exception(f"指定されたプリンターが見つかりません: {printer_name}")
 
+print(f"Using printer: {target_printer}")
+
+# Excelアプリケーションをバックグラウンドで起動
+excel = win32com.client.Dispatch("Excel.Application")
+excel.Visible = False  # Excelウィンドウを非表示にする
+excel.DisplayAlerts = False  # アラートを非表示にする
+# プリンターを設定
+excel.ActivePrinter = target_printer

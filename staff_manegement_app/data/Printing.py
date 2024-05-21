@@ -19,16 +19,17 @@ class ExcelEditor:
             self.workbook.close()
 
 class Notice_Printing:
-    def __init__(self,data):
+    def __init__(self,data,set):
+        self.set = set
         self.data = data
-        from ..data.SQL_center import Staff_printing_detail
+        from data.SQL_center import Staff_printing_detail
         staff = Staff_printing_detail(data["id"])
         detail = staff.get_data()
         self.excel_printing(detail)
 
     def excel_printing(self,data):
-        from ..data.SQL_center import Rank_details
-        from ..GUI.load_config import Load_Working_config
+        from data.SQL_center import Rank_details
+        from GUI.load_config import Load_Working_config
         import json
         workbook = Workbook()
         cell_set = Load_Working_config()
@@ -54,7 +55,9 @@ class Notice_Printing:
         data_dict = list(json.loads(data['主な交通費']).keys())[1]
         caru_set = data_dict[:-1]
         
-        config_path = 'staff_manegement_app/config/労働条件通知書 (原本).xlsx'
+        xlsx_name = '労働条件通知書(原本).xlsx'
+        
+        config_path = f'config/{xlsx_name}'
         with ExcelEditor(config_path) as workbook:
             sheet = workbook.active
             
@@ -100,10 +103,9 @@ class Notice_Printing:
             for position,value in cell_insert_data.items():
                 sheet[position] = value
                 
-            
+        self.print_specific_pages(config_path,1,1)
         
-        #print(rank_data)
-        #print(cell_set)
+      
         
     
     def era_change(self,date):
@@ -213,7 +215,41 @@ class Notice_Printing:
         
         return salary_data
 
+            
 
+    def print_specific_pages(self,excel_file_path, from_page, to_page):
+        
+        from data.SQL_center import setting_select
+        import os
+        import win32com.client as win32
+        abs_path = os.path.abspath(excel_file_path)
+        
+        printer = setting_select(1)
+        printer_name = f'{printer.get_data()[0][0]}'
+        
+        excel = win32.Dispatch("Excel.Application")
+        
+        excel.Visible = False
+        
+        excel.DisplayAlerts = False
+        
+        if self.set == 'PDF':
+            printer_name = 'Microsoft Print to PDF'
+        else:
+            pass
+    
+        
+        try:
+            workbook = excel.Workbooks.Open(abs_path)
+            ws = workbook.ActiveSheet
+            ws.PageSetup.PrintArea = None  # もし特定の印刷エリアが設定されていればクリア
+            ws.PrintOut(From=from_page, To=to_page, Copies=1, Preview=False, ActivePrinter=printer_name)#ここで指定することでエラーが出ない
 
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
-
+        finally:
+            
+            workbook.Close(SaveChanges=False)
+            
+            excel.Quit()
