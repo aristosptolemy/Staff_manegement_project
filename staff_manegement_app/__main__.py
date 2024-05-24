@@ -1,7 +1,7 @@
 import tkinter as tk
 from GUI.gui_module import Apps
 from data.update import UpdateVersion
-#pyinstall __main__.spec
+#pyinstaller __main__.spec
 
 
 
