@@ -28,15 +28,12 @@ class UpdateVersion:
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
         response = self.session.get(VERSION_FILE_URL, headers=headers, verify=True)  # SSL検証を有効にする
         
-        print(f"URL: {VERSION_FILE_URL}")
-        print(f"Status Code: {response.status_code}")
-        print(f"Response Text: {response.text}")
+
         
         if response.status_code == 200:
             # version.pyファイルの内容を取得
             version_file_content = response.text
-            print("File Content:")
-            print(version_file_content)
+
             
             # __version__の値を抽出
             for line in version_file_content.splitlines():
