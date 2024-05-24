@@ -11,6 +11,7 @@ class StaffDetailTab:
         self.notebook = notebook
         self.amount_label = amount_label
         self.rank_list = rank_list
+        
         self.setup_tab()
 
     def setup_tab(self):

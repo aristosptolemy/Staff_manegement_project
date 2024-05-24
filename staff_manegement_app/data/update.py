@@ -3,6 +3,7 @@ import requests
 import zipfile
 import sys
 import shutil
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from version import __version__
 
 # GitHubのリポジトリ情報
@@ -16,6 +17,7 @@ GITHUB_API_URL = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/release
 GITHUB_TOKEN = "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"
 
 class Update_Version:
+    
     def __init__(self):
         pass
 

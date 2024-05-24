@@ -17,7 +17,8 @@ class Apps(ttk.Frame):
         self.rank_number_list = []
         self.rank_number_list = self.get_rank_number_list()  # rank_number_list を取得するメソッドを呼び出す
         
-        threading.Thread(target=self.initialize).start()
+        #threading.Thread(target=self.initialize).start()
+        self.initialize()
         self.main_widgets()
 
     def initialize(self):
