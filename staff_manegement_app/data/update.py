@@ -3,6 +3,7 @@ import requests
 import zipfile
 import sys
 import shutil
+from version import __version__
 
 # GitHubのリポジトリ情報
 REPO_OWNER = 'aristosptolemy'

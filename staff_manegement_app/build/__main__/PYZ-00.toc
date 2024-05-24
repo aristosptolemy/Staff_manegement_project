@@ -4740,6 +4740,7 @@
   ('uuid',
    'C:\\Users\\storm\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\uuid.py',
    'PYMODULE'),
+  ('version', 'G:\\マイドライブ\\staff_manegement_project\\version.py', 'PYMODULE'),
   ('webbrowser',
    'C:\\Users\\storm\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\webbrowser.py',
    'PYMODULE'),
