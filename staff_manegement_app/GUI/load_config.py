@@ -7,7 +7,6 @@ def get_base_path():
     return os.path.abspath(os.path.dirname(__file__))
 
 config_path = os.path.join(get_base_path(), 'config')
-config_path = 'config'
 paths = [
     os.path.join(config_path, 'GUI_config.txt'),
     os.path.join(config_path, 'List_config.txt'),

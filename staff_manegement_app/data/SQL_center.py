@@ -14,7 +14,7 @@ config = {
 
 
 
-My_SQL_table_Name = "staff_list_test"
+My_SQL_table_Name = "staff_list"
 
 
 class Rank_List_Manager():
