@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "staff_manegement_app\__main__.py", line 2, in <module>
+ModuleNotFoundError: No module named 'GUI'
+[13316] Failed to execute script '__main__' due to unhandled exception!
