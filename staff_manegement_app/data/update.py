@@ -4,7 +4,7 @@ import zipfile
 import sys
 import shutil
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from version import __version__
+from data.version import __version__
 
 
 # GitHubのリポジトリ情報
@@ -12,7 +12,8 @@ REPO_OWNER = 'aristosptolemy'
 REPO_NAME = 'Staff_manegement_project'
 BRANCH_NAME = 'main'
 CURRENT_VERSION = __version__
-VERSION_FILE_URL = f'https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH_NAME}/version.py'
+#https://github.com/aristosptolemy/Staff_manegement_project/blob/main/staff_manegement_app/data/version.py
+VERSION_FILE_URL = f'https://github.com/aristosptolemy/Staff_manegement_project/blob/main/staff_manegement_app/data/version.py'
 ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/{BRANCH_NAME}.zip'
 GITHUB_API_URL = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/releases/latest'
 GITHUB_TOKEN = "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"
@@ -27,10 +28,9 @@ class Update_Version:
     def get_latest_version(self):
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
         response = requests.get(VERSION_FILE_URL, headers=headers)
-        print(response)
-        print(f"URL: {VERSION_FILE_URL}")
+        
         print(f"Status Code: {response.status_code}")
-        print(f"Response Text: {response.text}")
+        
         if response.status_code == 200:
             # version.pyファイルの内容を取得
             version_file_content = response.text
@@ -39,6 +39,7 @@ class Update_Version:
                 if line.startswith('__version__'):
                     # バージョン情報を取得
                     latest_version = line.split('=')[1].strip().strip('"\'')
+                    print(latest_version)
                     return latest_version
         return None
 
@@ -67,8 +68,7 @@ class Update_Version:
 
     def check_for_updates(self):
         latest_version = self.get_latest_version()
-        print(latest_version)
-        print(CURRENT_VERSION)
+        
         if latest_version and latest_version != CURRENT_VERSION:
             
             print(f'新しいバージョン {latest_version} が見つかりました。アップデートを開始します。')
