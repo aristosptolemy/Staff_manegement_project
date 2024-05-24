@@ -15,7 +15,7 @@ ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/{BRAN
 GITHUB_API_URL = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/releases/latest'
 GITHUB_TOKEN = "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"
 
-class UpdateVersion:
+class Update_Version:
     def __init__(self):
         pass
 
