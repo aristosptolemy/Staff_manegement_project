@@ -1,6 +1,18 @@
 from openpyxl import Workbook,load_workbook
 import os
 
+
+import sys
+
+def get_base_path():
+    if hasattr(sys, '_MEIPASS'):
+        return sys._MEIPASS
+    return os.path.abspath(os.path.dirname(__file__))
+
+config_path = os.path.join(get_base_path(), 'config')
+paths = [
+    os.path.join(config_path, '労働条件通知書(原本).xlsx')
+]
 class ExcelEditor:
     def __init__(self, filename):
         self.filename = filename
@@ -55,10 +67,7 @@ class Notice_Printing:
         data_dict = list(json.loads(data['主な交通費']).keys())[1]
         caru_set = data_dict[:-1]
         
-        xlsx_name = '労働条件通知書(原本).xlsx'
-        
-        config_path = f'config/{xlsx_name}'
-        with ExcelEditor(config_path) as workbook:
+        with ExcelEditor(paths[0]) as workbook:
             sheet = workbook.active
             
             cell_insert_data = {

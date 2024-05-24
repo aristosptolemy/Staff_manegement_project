@@ -4,6 +4,7 @@ from GUI.new_staff_gui import StaffDetailTab
 from GUI.staff_search_gui import Staff_Search_Tab
 from GUI.rank_gui import rank_list_map
 from data.SQL_center import Rank_List_Manager
+import threading
 
 class Apps(ttk.Frame):
     def __init__(self, master=None):
@@ -15,11 +16,16 @@ class Apps(ttk.Frame):
         self.amount_label = tk.StringVar()
         self.rank_number_list = []
         self.rank_number_list = self.get_rank_number_list()  # rank_number_list を取得するメソッドを呼び出す
-        self.setup_new_staff_tab()  # StaffDetailTab の設定を行うメソッドを呼び出す
-        self.set_up_staff_serch_tab()
+        
+        threading.Thread(target=self.initialize).start()
+        self.main_widgets()
+
+    def initialize(self):
+        self.rank_number_list = self.get_rank_number_list()
+        self.setup_new_staff_tab()
+        self.set_up_staff_search_tab()
         self.setup_rank_list_tab()
         self.setup_setting_tab()
-        self.main_widgets()
 
     def get_rank_number_list(self):
         
@@ -33,7 +39,7 @@ class Apps(ttk.Frame):
     def setup_rank_list_tab(self):
         self.rank_list_tab = rank_list_map(self.notebook)
     
-    def set_up_staff_serch_tab(self):
+    def set_up_staff_search_tab(self):
         self.staff_search_tab = Staff_Search_Tab(self.notebook)
     
     def setup_setting_tab(self):
@@ -62,6 +68,3 @@ class Apps(ttk.Frame):
         
         self.rank_manager = Rank_List_Manager()
         self.rank_number_list = self.rank_manager.rank_number_list_store_get()
-        
-        
-        

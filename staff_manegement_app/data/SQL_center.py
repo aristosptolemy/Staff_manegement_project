@@ -9,7 +9,7 @@ config = {
     'user': 'STAFF_MANAGEMENT',
     'port': '3306',
     'password': 'yoshi115STAFFMySQL',
-    'database': 'yoshi_schema',
+    'database': 'yoshi_schema'
 }
 
 

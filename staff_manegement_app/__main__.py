@@ -1,10 +1,13 @@
 import tkinter as tk
-from staff_manegement_app.GUI.gui_module import Apps
+from GUI.gui_module import Apps
+from data.update import Update_version
 
 
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    app = Apps(master=root)
-    app.mainloop()
+    updater = Update_version()
+    if not updater.check_for_updates():
+        root = tk.Tk()
+        app = Apps(master=root)
+        app.mainloop()
