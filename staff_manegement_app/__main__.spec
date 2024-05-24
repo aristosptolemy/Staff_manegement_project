@@ -9,8 +9,8 @@ a = Analysis(
     datas=[
         ('config', 'config'),
         ('G:\\マイドライブ\\staff_manegement_project\\README.md', '.'),
-        ('G:\\マイドライブ\\staff_manegement_project\\staff_manegement_app\\_internal\\pykakasi\\data\\kanwadict4.db', 'pykakasi/data'),
-        ('G:\\マイドライブ\\staff_manegement_project\\staff_manegement_app\\path\\to\\jusho\\database\\file.db', 'jusho/data'),
+        ('G:\\マイドライブ\\staff_manegement_project\\.venv\\Lib\\site-packages\\pykakasi\\data', 'pykakasi/data'),
+        ('G:\\マイドライブ\\staff_manegement_project\\.venv\\data\\address.db', 'jusho/data'),
     ],
     hiddenimports=[],
     hookspath=[],

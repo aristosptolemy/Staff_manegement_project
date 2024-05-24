@@ -6,6 +6,7 @@ import shutil
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from version import __version__
 
+
 # GitHubのリポジトリ情報
 REPO_OWNER = 'aristosptolemy'
 REPO_NAME = 'Staff_manegement_project'
@@ -16,6 +17,8 @@ ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/{BRAN
 GITHUB_API_URL = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/releases/latest'
 GITHUB_TOKEN = "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"
 
+
+
 class Update_Version:
     
     def __init__(self):
@@ -24,10 +27,13 @@ class Update_Version:
     def get_latest_version(self):
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
         response = requests.get(VERSION_FILE_URL, headers=headers)
+        print(response)
+        print(f"URL: {VERSION_FILE_URL}")
+        print(f"Status Code: {response.status_code}")
+        print(f"Response Text: {response.text}")
         if response.status_code == 200:
             # version.pyファイルの内容を取得
             version_file_content = response.text
-
             # __version__の値を抽出
             for line in version_file_content.splitlines():
                 if line.startswith('__version__'):
@@ -61,7 +67,10 @@ class Update_Version:
 
     def check_for_updates(self):
         latest_version = self.get_latest_version()
+        print(latest_version)
+        print(CURRENT_VERSION)
         if latest_version and latest_version != CURRENT_VERSION:
+            
             print(f'新しいバージョン {latest_version} が見つかりました。アップデートを開始します。')
             temp_dir = os.path.join(os.getcwd(), 'temp_update')
             os.makedirs(temp_dir, exist_ok=True)
