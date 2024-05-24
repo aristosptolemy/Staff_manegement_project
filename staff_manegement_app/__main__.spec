@@ -7,7 +7,8 @@ a = Analysis(
     pathex=['G:\\マイドライブ\\staff_manegement_project\\staff_manegement_app'],
     binaries=[('C:\\Users\\storm\\AppData\\Local\\Programs\\Python\\Python312\\python312.dll', '.')],
     datas=[
-        ('config', 'config')
+        ('config', 'config'),
+        ('G:\\マイドライブ\\staff_manegement_project\\README.md', '.'),
     ],
     hiddenimports=[],
     hookspath=[],
