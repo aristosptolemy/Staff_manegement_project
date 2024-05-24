@@ -3,28 +3,34 @@ import requests
 import zipfile
 import sys
 import shutil
-from version import __version__
-
 
 # GitHubのリポジトリ情報
 REPO_OWNER = 'aristosptolemy'
 REPO_NAME = 'Staff_manegement_project'
+BRANCH_NAME = 'main'
 CURRENT_VERSION = __version__
-VERSION_FILE_URL = f'https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/main/version.txt'
-ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/main.zip'
+VERSION_FILE_URL = f'https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH_NAME}/version.py'
+ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/{BRANCH_NAME}.zip'
 GITHUB_API_URL = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/releases/latest'
 GITHUB_TOKEN = "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"
-
 
 class UpdateVersion:
     def __init__(self):
         pass
 
-    def get_latest_version_info(self):
+    def get_latest_version(self):
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
-        response = requests.get(GITHUB_API_URL, headers=headers)
+        response = requests.get(VERSION_FILE_URL, headers=headers)
         if response.status_code == 200:
-            return response.json()
+            # version.pyファイルの内容を取得
+            version_file_content = response.text
+
+            # __version__の値を抽出
+            for line in version_file_content.splitlines():
+                if line.startswith('__version__'):
+                    # バージョン情報を取得
+                    latest_version = line.split('=')[1].strip().strip('"\'')
+                    return latest_version
         return None
 
     def download_and_extract_zip(self, url, extract_to='.'):
@@ -51,20 +57,17 @@ class UpdateVersion:
                 shutil.move(s, d)
 
     def check_for_updates(self):
-        latest_release = self.get_latest_version_info()
-        if latest_release:
-            latest_version = latest_release['tag_name']
-            if latest_version != CURRENT_VERSION:
-                print(f'新しいバージョン {latest_version} が見つかりました。アップデートを開始します。')
-                asset = next(item for item in latest_release['assets'] if item['name'].endswith('.zip'))
-                temp_dir = os.path.join(os.getcwd(), 'temp_update')
-                os.makedirs(temp_dir, exist_ok=True)
-                self.download_and_extract_zip(asset['browser_download_url'], temp_dir)
-                self.move_files(os.path.join(temp_dir, f'{REPO_NAME}-{latest_version}'), os.getcwd())
-                shutil.rmtree(temp_dir)
-                print('アップデートが完了しました。再起動します。')
-                self.restart_application()
-                return True
+        latest_version = self.get_latest_version()
+        if latest_version and latest_version != CURRENT_VERSION:
+            print(f'新しいバージョン {latest_version} が見つかりました。アップデートを開始します。')
+            temp_dir = os.path.join(os.getcwd(), 'temp_update')
+            os.makedirs(temp_dir, exist_ok=True)
+            self.download_and_extract_zip(ZIP_URL, temp_dir)
+            self.move_files(os.path.join(temp_dir, f'{REPO_NAME}-{BRANCH_NAME}'), os.getcwd())
+            shutil.rmtree(temp_dir)
+            print('アップデートが完了しました。再起動します。')
+            self.restart_application()
+            return True
         else:
             print('最新バージョンです。')
             return False
