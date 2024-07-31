@@ -71,6 +71,7 @@ class UpdateVersion:
 
     def check_for_updates(self):
         latest_version = self.get_latest_version()
+        print(latest_version)
         if latest_version and latest_version != CURRENT_VERSION:
             print(f'新しいバージョン {latest_version} が見つかりました。アップデートを開始します。')
             temp_dir = os.path.join(os.getcwd(), 'temp_update')
