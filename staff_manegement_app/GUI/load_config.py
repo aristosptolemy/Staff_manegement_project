@@ -6,7 +6,7 @@ def get_base_path():
         return sys._MEIPASS
     return os.path.abspath(os.path.dirname(__file__))
 
-config_path = os.path.join(get_base_path(), 'config')
+config_path = os.path.join(get_base_path(), '_internal/config')
 print(get_base_path())
 #config_path = 'config'
 paths = [

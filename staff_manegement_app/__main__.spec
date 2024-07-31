@@ -3,14 +3,14 @@
 block_cipher = None
 
 a = Analysis(
-    ['G:\\マイドライブ\\staff_manegement_project\\staff_manegement_app\\__main__.py'],
-    pathex=['G:\\マイドライブ\\staff_manegement_project\\staff_manegement_app'],
+    ['C:\\G_MyDrive\\staff_manegement_project\\staff_manegement_app\\__main__.py'],
+    pathex=['C:\\G_MyDrive\\staff_manegement_project\\staff_manegement_app'],
     binaries=[('C:\\Users\\storm\\AppData\\Local\\Programs\\Python\\Python312\\python312.dll', '.')],
     datas=[
         ('config', 'config'),
-        ('G:\\マイドライブ\\staff_manegement_project\\README.md', '.'),
-        ('G:\\マイドライブ\\staff_manegement_project\\.venv\\Lib\\site-packages\\pykakasi\\data', 'pykakasi/data'),
-        ('G:\\マイドライブ\\staff_manegement_project\\.venv\\data\\address.db', 'jusho/data'),
+        ('C:\\G_MyDrive\\staff_manegement_project\\README.md', '.'),
+        ('C:\\G_MyDrive\\staff_manegement_project\\.venv\\Lib\\site-packages\\pykakasi\\data', 'pykakasi/data'),
+        ('C:\\G_MyDrive\\staff_manegement_project\\.venv\\data\\address.db', 'jusho/data'),
     ],
     hiddenimports=[],
     hookspath=[],
