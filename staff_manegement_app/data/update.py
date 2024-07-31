@@ -12,6 +12,7 @@ REPO_OWNER = 'aristosptolemy'
 REPO_NAME = 'Staff_manegement_project'
 BRANCH_NAME = 'main'
 CURRENT_VERSION = __version__
+print(CURRENT_VERSION)
 #https://github.com/aristosptolemy/Staff_manegement_project/blob/main/staff_manegement_app/data/version.py
 VERSION_FILE_URL = 'https://raw.githubusercontent.com/aristosptolemy/Staff_manegement_project/main/staff_manegement_app/data/version.py'
 ZIP_URL = f'https://github.com/{REPO_OWNER}/{REPO_NAME}/archive/refs/heads/{BRANCH_NAME}.zip'
@@ -28,13 +29,10 @@ class UpdateVersion:
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
         response = self.session.get(VERSION_FILE_URL, headers=headers, verify=True)  # SSL検証を有効にする
         
-
-        
         if response.status_code == 200:
             # version.pyファイルの内容を取得
             version_file_content = response.text
 
-            
             # __version__の値を抽出
             for line in version_file_content.splitlines():
                 print(f"Line: {line}")
