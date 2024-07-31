@@ -26,12 +26,12 @@ class UpdateVersion:
         self.session = requests.Session()
 
     def get_latest_version(self):
-        headers = {'Authorization': f'token {GITHUB_TOKEN}'}
-        response = self.session.get(VERSION_FILE_URL, headers=headers, verify=True)  # SSL検証を有効にする
+        response = self.session.get(VERSION_FILE_URL, verify=True)  # SSL検証を有効にする
         
         if response.status_code == 200:
             # version.pyファイルの内容を取得
             version_file_content = response.text
+            print(f"Version file content:\n{version_file_content}")  # ファイル内容を出力して確認
 
             # __version__の値を抽出
             for line in version_file_content.splitlines():
@@ -42,6 +42,9 @@ class UpdateVersion:
                     latest_version = line.split('=')[1].strip().strip('"\'')
                     print(f"Latest Version: {latest_version}")
                     return latest_version
+        else:
+            print(f"Failed to fetch the version file. Status code: {response.status_code}")
+
         return None
 
     def download_and_extract_zip(self, url, extract_to='.'):
