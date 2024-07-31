@@ -5,7 +5,7 @@ pd.set_option('future.no_silent_downcasting', True)
 
 
 config = {
-    'host': '192.168.11.9',
+    'host': '192.168.0.43',
     'user': 'STAFF_MANAGEMENT',
     'port': '3306',
     'password': 'yoshi115STAFFMySQL',
